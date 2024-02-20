@@ -1,0 +1,42 @@
+﻿@model CourseDetailsDto
+<link href="~/assets/css/coursesdetilscss/coursesdetailscss.css" rel="stylesheet" />
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-3 text-white animated slideInDown">Courses</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a class="text-white" asp-action="Index" asp-controller="Home">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Courses Details</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- product section -->
+<div class="container-xxl py-5">
+    <div class="product-container">
+
+    <!-- left side -->
+    <div class="img-card">
+            <img src="~/assets/img/@Model.Image" alt="" id="featured-image">
+    </div>
+    <!-- Right side -->
+    <div class="product-info">
+        <h3>@Model.CourseName</h3>
+           <p>@Model.CourseDescription</p>
+        <div>
+            <h5>Eğitim Türü</h5>
+            <p>@Model.CourseLocation</p>
+            <div class="delivery">
+                    <h5>Eğitim Süresi</h5>
+                <p>@Model.CourseDuration Saat</p>
+            </div>   
+        </div>
+    </div>
+    </div>
+</div>
+<!-- script tags -->
+<script src="~/assets/js/coursesdetailsjs/cart.js"></script>

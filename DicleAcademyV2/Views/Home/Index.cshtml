@@ -1,0 +1,171 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model Tuple<List<CoursesDto> , List<WelcomeInformationsDto> , List<SkillsDto> , List<InstructorsDto> , List<StudentsSayDto> , List<HeaderDto>>
+<div class="container-fluid p-0 mb-5">
+    <div class="owl-carousel header-carousel position-relative">
+        @foreach(var item6 in Model.Item6)
+        {
+            <div class="owl-carousel-item position-relative" id =@item6.HeaderId>
+                <img class="img-fluid" src="~/assets/img/@item6.HeaderImage" alt="">
+                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
+                    <div class="container">
+                        <div class="row justify-content-start">
+                            <div class="col-sm-10 col-lg-8">
+                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Best Online Courses</h5>
+                                <h1 class="display-3 text-white animated slideInDown">@item6.HeaderTitle</h1>
+                                <p class="fs-5 text-white mb-4 pb-2">@item6.HeaderDescription</p>
+                                <a href="@Url.Action("Index","Aboute")" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read More</a>
+                                <a href="@Url.Action("Index","Contact")" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Skills Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-4">
+            @foreach(var item in Model.Item3)
+            {
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s" id=@item.SkillId>
+                    <div class="service-item text-center pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x text-primary mb-4"><img style="width:150px; height:150px;" src="~/assets/img/@item.SkillImage" /></i>
+                            <h5 class="mb-3">@item.SkillTitle</h5>
+                            <p>@item.SkillDescription</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- About Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5">
+            @foreach(var item2 in Model.Item2)
+            {
+         
+                   <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/assets/img/@item2.WelcomeInformationImage" alt="" style="object-fit: cover;">
+                </div>
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h1 class="mb-4">@item2.WelcomeInformationTitle</h1>
+                    <p class="mb-4">@item2.WelcomeInformationDescription</p>
+                <a class="btn btn-primary py-3 px-5 mt-2" asp-action="Index" asp-controller="Aboute">Read More</a>
+            </div>
+                
+            }
+         
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- Courses Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
+            <h1 class="mb-5">Popular Courses</h1>
+        </div>
+        <div class="row g-4 justify-content-center">
+            @foreach(var item3 in Model.Item1)
+            {
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="course-item bg-light">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid" src="~/assets/img/@item3.Image" alt="">
+                            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                                <a asp-action="CoursesDetails" asp-controller="Courses" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a asp-action="Index" asp-controller="Contact" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4 pb-0">
+                            <h5 class="mb-4">@item3.CourseName</h5>
+                        </div>
+                        <div class="d-flex border-top">
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>@item3.InstructorsName</small>
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>@item3.CoursesDuration</small>
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>@item3.CoursesQuota Students</small>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<!-- Team Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Instructors</h6>
+            <h1 class="mb-5">Expert Instructors</h1>
+        </div>
+        <div class="row g-4">
+            @foreach(var item4 in Model.Item4)
+            {
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s" id =@item4.InstructorId>
+                    <div class="team-item bg-light">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="~/assets/img/@item4.InstructorImage" alt="">
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
+                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
+                                <a class="btn btn-sm-square btn-primary mx-1" href="@item4.FacebookAccountURL"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="@item4.TwitterAccountURL"><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="@item4.InstagramAcoountURL"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">@item4.InstructorName</h5>
+                            <small>@item4.InstructorDescription</small>
+                            <small>@item4.AreaOfExpertise</small>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<!-- Testimonial Start -->
+<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="text-center">
+            <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
+            <h1 class="mb-5">Our Students Say!</h1>
+        </div>
+        <div class="owl-carousel testimonial-carousel position-relative">
+            @foreach(var item5 in Model.Item5)
+            {
+                <div class="testimonial-item text-center" id =@item5.StudentsSayId>
+                    <img class="border rounded-circle p-2 mx-auto mb-3" src="~/assets/img/@item5.StudentsSayImage" style="width: 80px; height: 80px;">
+                    <h5 class="mb-0">@item5.StudentName</h5>
+                    <p>@item5.StudentSurname</p>
+                    <div class="testimonial-text bg-light text-center p-4">
+                        <h5>@item5.StudentsSayTitle</h5>
+                        <p class="mb-0">@item5.StudentsSayDescription</p>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
