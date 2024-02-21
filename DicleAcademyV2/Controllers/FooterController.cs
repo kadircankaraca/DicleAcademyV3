@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Entities.Models;
+using Entities.ModelsDto;
+using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Services.EFCore;
 
@@ -8,15 +10,16 @@ namespace DicleAcademyV2.Controllers
     {
         private readonly IGalleryService _galleryService;
         private readonly IContactService _contactService;   
-        public FooterController(IGalleryService galleryService)
+        public FooterController(IGalleryService galleryService, IContactService contactService)
         {
             _galleryService = galleryService;
+            _contactService = contactService;
         }
         public IActionResult Index()
         { //ContactDto
            var contact =  _contactService.GetAllContact();
             var gallery=  _galleryService.GetAllGallery();
-            return View(Tuple.Create(gallery, contact));
+            return PartialView(Tuple.Create((List<GalleryDto>)gallery, (List<ContactDto>)contact));
         }
     }
 }

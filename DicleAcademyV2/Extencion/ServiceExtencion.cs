@@ -1,6 +1,7 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 using Repositories.Contracts;
@@ -56,13 +57,17 @@ namespace DicleAcademyV2.Extencion
         }
         public static void ConfiguerServiceManager(this IServiceCollection services)
         { // service referanslar
+
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+
             services.AddScoped<IAboutUsService, AboutUsService>();
             services.AddScoped<Services.Contracts.IAuthenticationService, Services.EFCore.AuthenticationService>();
             services.AddScoped<IBestCoursesService, BestCoursesService>();
             services.AddScoped<IContactService, ContactService>();
             services.AddScoped<ICourseDetailsService, CourseDetailsService>();
             services.AddScoped<ICoursesCategoriesService, CoursesCategoriesService>();
-            services.AddScoped<ICoursesService,CoursesService>();
+            services.AddScoped<ICoursesService, CoursesService>();
             services.AddScoped<IFAQService, FAQService>();
             services.AddScoped<IGalleryService, GalleryService>();
             services.AddScoped<IGetInTouchService, GetInTouchService>();

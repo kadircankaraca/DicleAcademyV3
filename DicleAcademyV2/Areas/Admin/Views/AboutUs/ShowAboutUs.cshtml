@@ -1,5 +1,5 @@
-﻿<div class="container-fluid">
-
+﻿@model List<AboutUsDto>
+<div class="container-fluid">
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
@@ -16,18 +16,11 @@
         </div>
     </div>
     <!-- end page title -->
-
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <h4 class="header-title">AboutUs Göster</h4>
-                    <!--
-                    <p class="text-muted mb-0">
-                        Use <code>.table-striped</code> to add zebra-striping to any table row
-                        within the <code>&lt;tbody&gt;</code>.
-                    </p>
-                    -->
                 </div>
                 <div class="card-body">
                     <div class="table-responsive-sm">
@@ -41,85 +34,56 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-2.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                        Risa D. Pearson
-                                    </td>
-                                    <td>AC336 508 2157</td>
-                                    <td>July 24, 1950</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-3.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                        Ann C. Thompson
-                                    </td>
-                                    <td>SB646 473 2057</td>
-                                    <td>January 25, 1959</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-4.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                        Paul J. Friend
-                                    </td>
-                                    <td>DL281 308 0793</td>
-                                    <td>September 1, 1939</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-5.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                        Sean C. Nguyen
-                                    </td>
-                                    <td>CA269 714 6825</td>
-                                    <td>February 5, 1994</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.AboutUsTitle</td>
+                                        <td>@item.AboutUsDescription</td>
+                                        <td class="table-user">
+                                            <img src="~/Images/AboutUsImages/@item.AboutUsImage" alt="table-user"
+                                                 class="me-2 rounded-circle" />
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-block;">
+                                                <form method="get" action="/AboutUs/UpdateAboutUs">
+                                                    <input type="hidden" name="aboutUsId" value="@item.AboutUsId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-settings-3-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div style="display: inline-block;">
+                                                <form method="post" action="/AboutUs/DeleteAboutUs">
+                                                    <input type="hidden" name="aboutUsId" value="@item.AboutUsId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-delete-bin-2-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div> <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div> <!-- end table-responsive-->
-
                 </div> <!-- end card body-->
             </div> <!-- end card -->
         </div><!-- end col-->
-
-
-    </div>
-    <!-- end row-->
-
-
+    </div><!-- end row-->
 </div> <!-- container -->
+
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("AboutUs Başarıyla Silindi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>
