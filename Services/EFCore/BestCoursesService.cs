@@ -26,7 +26,7 @@ namespace Services.EFCore
 
 		public BestCoursesDto GetByIdBestCourses(int id)
 		{
-			var course = _repository.BestCourses.GetBestCourses(id, false);
+			var course = _repository.BestCourses.GetBestCourses(id, false).SingleOrDefault();
 			var bestCoursesDto = _mapper.Map<BestCoursesDto>(course);
 			return bestCoursesDto;
 		}

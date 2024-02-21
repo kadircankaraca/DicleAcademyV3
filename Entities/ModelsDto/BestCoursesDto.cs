@@ -11,7 +11,6 @@ namespace Entities.ModelsDto
     public class BestCoursesDto
     {    
         public int BestCourseId { get; set; }
-        public string CourseName { get; set; }
         public int CourseId { get; set; }
     }
 }

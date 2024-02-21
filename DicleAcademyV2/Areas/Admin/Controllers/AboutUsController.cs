@@ -105,11 +105,11 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
 
             return View("UpdateAboutUs", aboutUsDto);
         }
-        public IActionResult UpdateAboutUs(int aboutusId)
+        public IActionResult UpdateAboutUs(int aboutUsId)
         {
             AboutUsDto aboutUsDto = new AboutUsDto();
 
-            aboutUsDto = _aboutUsService.GetByIdAboutUs(aboutusId);
+            aboutUsDto = _aboutUsService.GetByIdAboutUs(aboutUsId);
 
             return View(aboutUsDto);
         }

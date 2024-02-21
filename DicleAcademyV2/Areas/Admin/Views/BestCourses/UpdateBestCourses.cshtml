@@ -1,1 +1,111 @@
-﻿
+﻿@model Tuple<BestCoursesDto, List<CoursesDto>>
+<!-- Start Content-->
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">BestCourses</a></li>
+                        <li class="breadcrumb-item active">BestCourses Güncelle</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">BestCourses Güncelle</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="header-title">BestCourses</h4>
+                    <!--
+                    <p class="text-muted mb-0">
+                        Use <code>.table-striped</code> to add zebra-striping to any table row
+                        within the <code>&lt;tbody&gt;</code>.
+                    </p>
+                    -->
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive-sm">
+                        <table class="table table-striped table-centered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Kurs</th>
+                                    <th>Güncellenecek Kurs</th>
+                                    <th style="text-align: right;">Güncelle / Sil</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <form method="post" action="/BestCourses/UpdateBestCoursesPost">
+                                    <td>
+                                            @{
+                                                var courses = Model.Item2.FirstOrDefault(c => c.CourseId == Model.Item1.CourseId);
+                                                string courseName = courses != null ? courses.CourseName : "";
+                                            }
+                                            @courseName
+                                    </td>
+                                    <td>
+                                        <div class="mb-3">
+                                            <select class="form-select" id="example-select" name="CourseId">
+                                                    @foreach (var item in Model.Item2)
+                                                    {
+                                                    <option value="@item.CourseId">@item.CourseName</option>
+                                                    }
+                                            </select>
+                                        </div>
+                                    </td>
+
+                                    <td style="text-align: right;">
+                                        <div style="display: inline-block;">
+
+                                            <input type="hidden" name="BestCourseId" value="@Model.Item1.BestCourseId" />
+                                            <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                <!-- <i class="ri-check-line"></i>-->
+                                                Onayla
+                                            </button>
+
+                                        </div>
+                                        <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                    </td>
+                                    </form>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- end table-responsive-->
+
+                </div>
+            </div> <!-- end card -->
+        </div><!-- end col-->
+
+
+    </div>
+    <!-- end row-->
+
+
+</div> <!-- container -->
+<!-- ============================================================== -->
+<!-- End Page content -->
+<!-- ============================================================== -->
+
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("BestCourse Başarıyla Güncellendi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>

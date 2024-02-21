@@ -12,7 +12,6 @@ namespace Entities.Models
     {
         [Key]
         public int BestCourseId { get; set; }
-        public string CourseName { get; set; }
 
         [ForeignKey("CourseId")]
         public Courses Courses { get; set; }
