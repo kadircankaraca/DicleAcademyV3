@@ -11,7 +11,6 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
         private readonly IAboutUsService _aboutUsService;
         FileDelete _fileDelete = new FileDelete();
         private readonly IWebHostEnvironment _webHostEnvironment;
-
         public AboutUsController(IAboutUsService aboutUsService, IWebHostEnvironment webHostEnvironment)
         {
             _aboutUsService = aboutUsService;

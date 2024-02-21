@@ -1,4 +1,4 @@
-﻿@model GetInTouchDto 
+﻿@model Tuple<GetInTouchDto, List<CoursesDto>>
 <!-- Header Start -->
 <div class="container-fluid bg-primary py-5 mb-5 page-header">
     <div class="container py-5">
@@ -24,15 +24,15 @@
         </div>
         <div class="row g-4">
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <h5>@Model.GetInTouchTitle</h5>
-                <p class="mb-4">@Model.GetInTouchDescription</p>
+                <h5>@Model.Item1.GetInTouchTitle</h5>
+                <p class="mb-4">@Model.Item1.GetInTouchDescription</p>
                 <div class="d-flex align-items-center mb-3">
                     <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary" style="width: 50px; height: 50px;">
                         <i class="fa fa-map-marker-alt text-white"></i>
                     </div>
                     <div class="ms-3">
                         <h5 class="text-primary">Office</h5>
-                        <p class="mb-0">@Model.Adress</p>
+                        <p class="mb-0">@Model.Item1.Adress</p>
                     </div>
                 </div>
                 <div class="d-flex align-items-center mb-3">
@@ -41,7 +41,7 @@
                     </div>
                     <div class="ms-3">
                         <h5 class="text-primary">Mobile</h5>
-                        <p class="mb-0">@Model.PhoneNumber</p>
+                        <p class="mb-0">@Model.Item1.PhoneNumber</p>
                     </div>
                 </div>
                 <div class="d-flex align-items-center">
@@ -50,22 +50,23 @@
                     </div>
                     <div class="ms-3">
                         <h5 class="text-primary">Email</h5>
-                        <p class="mb-0">@Model.Email</p>
+                        <p class="mb-0">@Model.Item1.Email</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
-                @using (Html.BeginForm("PostForm", "Contact" ,FormMethod.Post)) {
-              
+                @using (Html.BeginForm("PostForm", "Contact", FormMethod.Post))
+                {
+
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                Your Name @Html.TextBox("Name" , null , new{@class="form-control"}) 
+                                Your Name @Html.TextBox("Name" , null , new{@class="form-control"})
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                Surname @Html.TextBox("Surname" , null , new{@class="form-control"}) 
+                                Surname @Html.TextBox("Surname" , null , new{@class="form-control"})
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -75,19 +76,25 @@
                         </div>
                         <div class="col-12">
                             <div class="form-floating">
-                                Course @Html.TextBox("CourseId" , null , new{@class="form-control"}) 
+                                Kurs
+                                <select class="form-control" cols="40" id="IdAdd" name="CourseId" rows="4">
+                                    @foreach (var item in Model.Item2)
+                                    {
+                                        <option value="@item.CourseId"> @item.CourseName </option>
+                                    }
+                                </select>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-floating">
-                                Message @Html.TextBox("Description" , null , new{@class="form-control"}) 
+                                Message @Html.TextBox("Description" , null , new{@class="form-control"})
                             </div>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary w-100 py-3" type="submit" >Send Message</button>
+                            <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
                         </div>
                     </div>
-     
+
                 }
             </div>
         </div>
