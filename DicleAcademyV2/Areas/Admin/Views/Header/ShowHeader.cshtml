@@ -1,4 +1,4 @@
-﻿
+﻿@model List<HeaderDto>
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -42,70 +42,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Başlık</td>
-                                    <td>Açıklama</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-5.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Başlık</td>
-                                    <td>Açıklama</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-5.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Başlık</td>
-                                    <td>Açıklama</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-5.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Başlık</td>
-                                    <td>Açıklama</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-5.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @foreach (var header in Model)
+                                {
+                                    <tr>
+                                        <td>@header.HeaderTitle</td>
+                                        <td>@header.HeaderDescription</td>
+                                        <td><img src="~/Images/HeaderImages/@header.HeaderImage" alt="Header Image" style="max-width: 200px; max-height: 200px;"></td>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-block;">
+                                                <form method="get" action="/Header/UpdateHeader">
+                                                    <input type="hidden" name="HeaderId" value="@header.HeaderId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-settings-3-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div style="display: inline-block;">
+                                                <form method="post" action="/Header/DeleteHeader">
+                                                    <input type="hidden" name="HeaderId" value="@header.HeaderId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-delete-bin-2-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div> <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div> <!-- end table-responsive-->

@@ -1,8 +1,10 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Repositories;
 using Repositories.Contracts;
 using Repositories.EF_Core;
@@ -11,6 +13,7 @@ using Services.Contracts;
 using Services.EFCore;
 using System.ComponentModel.Design;
 using System.Reflection;
+using System.Text;
 
 namespace DicleAcademyV2.Extencion
 {
@@ -25,6 +28,7 @@ namespace DicleAcademyV2.Extencion
             services.AddScoped<IRepositoryAboutUs, RepositoryAboutUs>();
             services.AddScoped<IRepositoryBestCourses, RepositoryBestCourses>();
             services.AddScoped<IRepositoryContact, RepositoryContact>();
+            services.AddScoped<IContactUsService, ContactUsService>();
             services.AddScoped<IRepositoryCourseDetails, RepositoryCourseDetails>();
             services.AddScoped<IRepositoryCourses, RepositoryCourses>();
             services.AddScoped<IRepositoryCoursesCategories, RepositoryCoursesCategories>();
@@ -103,5 +107,30 @@ namespace DicleAcademyV2.Extencion
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
         }
+
+        public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+        {
+            var jwtSettings = configuration.GetSection("JwtSettings"); //appsettingsteki istenilen tagı okumaya yarar
+            var secretKey = jwtSettings["SecretKey"];
+            //Tokenlarda hassas veriler hiçbir şekilde yer almamalıdır //userName, password, eMail, phoneNumber etc
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings["ValidateIssue"],
+                    ValidAudience = jwtSettings["ValidateAudience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                }
+            );
+        }
+
+
     }
 }

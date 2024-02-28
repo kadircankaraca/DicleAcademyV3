@@ -14,11 +14,10 @@ namespace Entities.ModelsDto
         public string Adress { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public string TwitterAccountURL { get; set; }
-        public string FacebookAccountURL { get; set; }
-        public string YoutubeAccountURL { get; set; }
-        public string LinkedInAccountURL { get; set; }
-        public string InstagramAcoountURL { get; set; }
+        public string TwitterAccount { get; set; }
+        public string FacebookAccount { get; set; }
+        public string YoutubeAccount { get; set; }
+        public string LinkedInAccount { get; set; }
        
     }
 }

@@ -1,0 +1,93 @@
+﻿@model CoursesCategoriesDto
+<!-- Begin page -->
+<!-- Start Content-->
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Brand</a></li>
+                        <li class="breadcrumb-item active">Brand Göster</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Brand Göster</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="header-title">Markalar</h4>
+
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive-sm">
+                        <table class="table table-striped table-centered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Kategori Adı</th>
+                                    <th>Yeni Ad</th>
+                                    <th>Konu</th>
+                                    <th>Yeni Konu</th>
+                                    <th>Fotoğraf</th>
+                                    <th>Yeni Fotoğraf</th>
+                                    <th style="text-align: right;">Onay</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <form method="post" action="/CoursesCategories/UpdateCoursesCategoriesPost" enctype="multipart/form-data">
+                                    <td>@Model.CategoryName</td>
+                                    <td><input type="text" asp-for="CategoryName" value="@Model.CategoryName"></td>
+                                    <td>@Model.CategoryDescription</td>
+                                    <td><input type="text" asp-for="CategoryDescription" value="@Model.CategoryDescription"></td>
+                                    <td>
+                                        <img src="~/Images/CoursesCategoriesImages/@Model.CategoryImage" alt="CoursesCategories Image" width="100">
+                                    </td>
+                                    <td>
+                                        <input type="file" name="newCategoryImage" class="form-control">
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <div style="display: inline-block;">
+                                            <input type="hidden" asp-for="CategoryId" value="@Model.CategoryId" />
+                                            <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                Onayla
+                                            </button>
+
+                                        </div>
+                                        <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                    </td>
+                                    </form>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- end table-responsive-->
+                </div>
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div> <!-- end row-->
+</div> <!-- container -->
+<!-- end Footer -->
+
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("Kategori Başarıyla Güncellendi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>

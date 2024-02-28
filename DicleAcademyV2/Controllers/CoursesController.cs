@@ -8,19 +8,21 @@ namespace DicleAcademy.Controllers
     {
         private readonly ICoursesCategoriesService _coursesCategoriesService;
         private readonly ICourseDetailsService _courseDetailsService;
+        private readonly IInstructorsService _instructorsService;
         private readonly ICoursesService _coursesService;
 
-        public CoursesController(ICoursesCategoriesService coursesCategoriesService, ICourseDetailsService courseDetailsService, ICoursesService coursesService)
+        public CoursesController(ICoursesCategoriesService coursesCategoriesService, ICourseDetailsService courseDetailsService, ICoursesService coursesService, IInstructorsService instructorsService)
         {
             _coursesCategoriesService = coursesCategoriesService;
             _courseDetailsService = courseDetailsService;
             _coursesService = coursesService;
+            _instructorsService = instructorsService;
         }
 
         public IActionResult Index()
         {
            List<GetCategoryWithCoursesDto> getCategoryWithCoursesDto = new List<GetCategoryWithCoursesDto>();
-           
+            List<InstructorsDto> instructorsList = _instructorsService.GetAllInstructors().ToList();
 
             var data =  _coursesCategoriesService.GetAllCoursesCategories();
 
@@ -34,7 +36,7 @@ namespace DicleAcademy.Controllers
                 getCategoryWithCourses.CoursesCategory = item;
                 getCategoryWithCoursesDto.Add(getCategoryWithCourses);
             }
-            return View("CoursesIndex" , Tuple.Create((List<GetCategoryWithCoursesDto>)getCategoryWithCoursesDto , (List<CoursesCategoriesDto>)data));
+            return View("CoursesIndex" , Tuple.Create((List<GetCategoryWithCoursesDto>)getCategoryWithCoursesDto , (List<CoursesCategoriesDto>)data, instructorsList));
         }
         public IActionResult CoursesDetails(int id)
         {

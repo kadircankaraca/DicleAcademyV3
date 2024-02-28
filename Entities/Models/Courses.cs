@@ -13,7 +13,6 @@ namespace Entities.Models
         [Key]
         public int CourseId { get; set; }
         public string CourseName { get; set; }
-        public string InstructorsName { get; set; }
         public double CoursesDuration { get; set; }
         public int CoursesQuota { get; set; }
         public string Image { get; set; }
@@ -21,5 +20,9 @@ namespace Entities.Models
         [ForeignKey("CategoryId")]
         public CoursesCategories CoursesCategories { get; set; }
         public int CategoryId { get; set; }
+
+        [ForeignKey("InstructorId")]
+        public Instructors Instructors { get; set; }
+        public int InstructorId { get; set; }
     }
 }

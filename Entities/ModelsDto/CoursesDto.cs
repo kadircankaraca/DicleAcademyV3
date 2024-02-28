@@ -12,7 +12,7 @@ namespace Entities.ModelsDto
     {
         public int CourseId { get; set; }
         public string CourseName { get; set; }
-        public string InstructorsName { get; set; }
+        public int InstructorId { get; set; }
         public double CoursesDuration { get; set; }
         public int CoursesQuota { get; set; }
         public string Image { get; set; }

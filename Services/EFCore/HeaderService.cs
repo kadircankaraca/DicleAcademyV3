@@ -25,7 +25,7 @@ public class HeaderService : IHeaderService
 
     public HeaderDto GetByIdHeader(int id)
     {
-        var header = _repository.Header.GetHeader(id, false);
+        var header = _repository.Header.GetHeader(id, false).SingleOrDefault();
         return _mapper.Map<HeaderDto>(header);
     }
 

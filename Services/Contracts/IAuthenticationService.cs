@@ -11,7 +11,7 @@ namespace Services.Contracts
         //Kullanıcı doğrulama işlemi
         Task<bool> ValidateUser(UserForAuthenticationDto userForAuthenticationDto);
         //Tokken oluşturma metodu
-        Task<TokenDto> CreateTokken(bool populateExp);
+        Task<TokenDto> CreateToken(bool populateExp);
         //Token Yenileme metodu
         Task<TokenDto> RefreshToken(TokenDto tokenDto);
     }

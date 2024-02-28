@@ -9,9 +9,14 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Admin\Data\" />
     <Folder Include="wwwroot\Images\AboutUsImages\" />
+    <Folder Include="wwwroot\Images\GalleryImages\" />
+    <Folder Include="wwwroot\Images\HeaderImages\" />
+    <Folder Include="wwwroot\Images\WelcomeInformationImages\" />
+    <Folder Include="wwwroot\Images\StudentsSayImages\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.24" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.14">
       <PrivateAssets>all</PrivateAssets>

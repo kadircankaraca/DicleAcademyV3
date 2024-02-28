@@ -26,7 +26,7 @@ namespace Services.EFCore
 
 		public InstructorsDto GetByIdInstructors(int id)
 		{
-			var instructor = _repository.Instructors.GetInstructors(id, false);
+			var instructor = _repository.Instructors.GetInstructors(id, false).SingleOrDefault();
 			var instructorDto = _mapper.Map<InstructorsDto>(instructor);
 			return instructorDto;
 		}
@@ -46,7 +46,7 @@ namespace Services.EFCore
 				.GetInstructors(instructorsDto.InstructorId, false).SingleOrDefault();
 			if (updateInstructor != null)
 			{
-				var updatedInstructor = _mapper.Map<Instructors>(updateInstructor);
+				var updatedInstructor = _mapper.Map<Instructors>(instructorsDto);
 				_repository.Instructors.GenericUpdate(updatedInstructor);
 				_repository.Save();
 			}

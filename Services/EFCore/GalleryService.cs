@@ -26,7 +26,7 @@ namespace Services.EFCore
 
 		public GalleryDto GetByIdGallery(int id)
 		{
-			var gallery = _repository.Gallery.GetGallery(id, false);
+			var gallery = _repository.Gallery.GetGallery(id, false).SingleOrDefault();
 			var galleryDto = _mapper.Map<GalleryDto>(gallery);
 			return galleryDto;
 		}

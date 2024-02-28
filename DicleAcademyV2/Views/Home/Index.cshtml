@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model Tuple<List<CoursesDto> , List<WelcomeInformationsDto> , List<SkillsDto> , List<InstructorsDto> , List<StudentsSayDto> , List<HeaderDto>>
+@model Tuple<List<CoursesDto> , List<WelcomeInformationsDto> , List<SkillsDto> , List<InstructorsDto> , List<StudentsSayDto> , List<HeaderDto>, List<InstructorsDto>>
 <div class="container-fluid p-0 mb-5">
     <div class="owl-carousel header-carousel position-relative">
         @foreach(var item6 in Model.Item6)
@@ -69,12 +69,6 @@
     </div>
 </div>
 
-
-
-
-
-
-
 <!-- Courses Start -->
 <div class="container-xxl py-5">
     <div class="container">
@@ -98,7 +92,13 @@
                             <h5 class="mb-4">@item3.CourseName</h5>
                         </div>
                         <div class="d-flex border-top">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>@item3.InstructorsName</small>
+                            <small class="flex-fill text-center border-end py-2">
+                                <i class="fa fa-user-tie text-primary me-2"></i>@{
+                                    var instructors = Model.Item7.FirstOrDefault(c => c.InstructorId == item3.InstructorId);
+                                    string instructorName = instructors != null ? instructors.InstructorName : "";
+                                }
+                                @instructorName
+                            </small>
                             <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>@item3.CoursesDuration</small>
                             <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>@item3.CoursesQuota Students</small>
                         </div>

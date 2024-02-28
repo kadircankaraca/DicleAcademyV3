@@ -1,4 +1,5 @@
-﻿using DicleAcademyV2.Extencion;
+﻿using DicleAcademyV2;
+using DicleAcademyV2.Extencion;
 using Repositories.AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +9,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.ConfiguratioSQLContext(builder.Configuration);
 builder.Services.ConfiguerRepostoryManager();
 builder.Services.ConfiguerServiceManager();
+builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 var app = builder.Build();
 
@@ -19,6 +22,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+builder.Services.InitializeClientBaseAddress(builder.Configuration);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -36,6 +41,6 @@ app.MapControllerRoute(
 app.MapAreaControllerRoute(
     name: "Admin",
     areaName: "Admin",
-    pattern: "{controller=Admin}/{action=Index}/{id?}");
+    pattern: "{controller=Admin}/{action=SignIn}/{id?}");
 
 app.Run();

@@ -1,6 +1,5 @@
 ﻿  <!-- Start Content-->
 <div class="container-fluid">
-
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
@@ -23,40 +22,47 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="header-title">CoursesCategories</h4>
-                    <!--<p class="text-muted mb-0">
-                        Most common form control, text-based input fields. Includes support for all
-                        HTML5 types: <code>text</code>, <code>password</code>, <code>datetime</code>,
-                        <code>datetime-local</code>, <code>date</code>, <code>month</code>,
-                        <code>time</code>, <code>week</code>, <code>number</code>, <code>email</code>,
-                        <code>url</code>, <code>search</code>, <code>tel</code>, and <code>color</code>.
-                    </p>-->
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form>
+                            <form action="/CoursesCategories/AddCoursesCategoriesPost" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="simpleinput" class="form-label">Kategori Adı</label>
-                                    <input type="text" id="simpleinput" class="form-control">
+                                    <input type="text" id="simpleinput" name="CategoryName" class="form-control">
                                 </div>
                                 <div class="mb-3">
                                     <label for="example-fileinput" class="form-label">Kategori Fotoğrafı</label>
-                                    <input type="file" id="example-fileinput" class="form-control">
+                                    <input type="file" id="example-fileinput" name="CategoryImage" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Kategori Açıklaması</label>
+                                    <input type="text" id="simpleinput" name="CategoryDescription" class="form-control">
                                 </div>
                                 <div style="text-align: right;">
                                     <button type="submit" class="btn btn-primary">Ekle</button>
                                 </div>
                             </form>
-                        </div> <!-- end col -->
-
-
-                    </div>
-                    <!-- end row-->
+                        </div> <input value="@ViewBag.Message" id="bag" style="display:none;" /> <!-- end col -->
+                    </div> <!-- end row-->
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
         </div><!-- end col -->
     </div><!-- end row -->
-
-
-
 </div> <!-- container -->
+
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("Kategori Başarıyla Eklendi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>

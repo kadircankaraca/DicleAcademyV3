@@ -1,4 +1,5 @@
-﻿<!-- Start Content-->
+﻿@model Tuple<List<CourseDetailsDto>, List<CoursesDto>, List<CoursesCategoriesDto>>
+<!-- Start Content-->
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -8,11 +9,11 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Contact</a></li>
-                        <li class="breadcrumb-item active">Contact Göster</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">CourseDetails</a></li>
+                        <li class="breadcrumb-item active">CourseDetails Göster</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Contact Göster</h4>
+                <h4 class="page-title">CourseDetails Göster</h4>
             </div>
         </div>
     </div>
@@ -22,7 +23,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="header-title">Contact Göster</h4>
+                    <h4 class="header-title">CourseDetails Göster</h4>
                     <!--
                     <p class="text-muted mb-0">
                         Use <code>.table-striped</code> to add zebra-striping to any table row
@@ -39,76 +40,51 @@
                                     <th>Kurs Açıklaması</th>
                                     <th>Kurs Konumu</th>
                                     <th>Kurs Süresi</th>
-                                    <th>Kurs Id</th>
-                                    <th>Kategori Id</th>
+                                    <th>Kategori Adı</th>
+                                    <th>Fotoğraf</th>
                                     <th style="text-align: right;">Güncelle / Sil</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Risa D. Pearson</td>
-                                    <td>Kurs Açıklaması</td>
-                                    <td>Kurs Konumu</td>
-                                    <td>Kurs Süresi</td>
-                                    <td>AC336 508 2157</td>
-                                    <td>AC336 508 2157</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Ann C. Thompson</td>
-                                    <td>Kurs Açıklaması</td>
-                                    <td>Kurs Konumu</td>
-                                    <td>Kurs Süresi</td>
-                                    <td>AC336 508 2157</td>
-                                    <td>SB646 473 2057</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Paul J. Friend</td>
-                                    <td>Kurs Açıklaması</td>
-                                    <td>Kurs Konumu</td>
-                                    <td>Kurs Süresi</td>
-                                    <td>AC336 508 2157</td>
-                                    <td>DL281 308 0793</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Sean C. Nguyen</td>
-                                    <td>Kurs Açıklaması</td>
-                                    <td>Kurs Konumu</td>
-                                    <td>Kurs Süresi</td>
-                                    <td>AC336 508 2157</td>
-                                    <td>CA269 714 6825</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @foreach(var item in Model.Item1)
+                                {
+                                    <tr>
+                                        <td>@item.CourseName</td>
+                                        <td>@item.CourseDescription</td>
+                                        <td>@item.CourseLocation</td>
+                                        <td>@item.CourseDuration</td>
+                                        <td>
+                                            @{
+                                                var category = Model.Item3.FirstOrDefault(c => c.CategoryId == item.CategoryId);
+                                                string categoryName = category != null ? category.CategoryName : "";
+                                            }
+                                            @categoryName
+                                        </td>
+                                        <td class="table-user">
+                                            <img src="~/Images/CourseImages/@item.Image" alt="table-user"
+                                                 class="me-2 rounded-circle" />
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-block;">
+                                                <form method="get" action="/CourseDetails/UpdateCourseDetails">
+                                                    <input type="hidden" name="CourseDetailsId" value="@item.CourseDetailsId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-settings-3-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div style="display: inline-block;">
+                                                <form method="post" action="/CourseDetails/DeleteCourseDetails">
+                                                    <input type="hidden" name="CourseDetailsId" value="@item.CourseDetailsId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-delete-bin-2-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div> <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                        </td>
+                                    </tr>
+                                }
+                                
                             </tbody>
                         </table>
                     </div> <!-- end table-responsive-->

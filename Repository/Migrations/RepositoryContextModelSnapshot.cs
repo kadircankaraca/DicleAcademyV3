@@ -155,8 +155,8 @@ namespace Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CourseDuration")
-                        .HasColumnType("int");
+                    b.Property<double>("CourseDuration")
+                        .HasColumnType("float");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -207,13 +207,14 @@ namespace Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("InstructorsName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("InstructorId")
+                        .HasColumnType("int");
 
                     b.HasKey("CourseId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("InstructorId");
 
                     b.ToTable("Courses");
                 });
@@ -572,13 +573,13 @@ namespace Repositories.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "25192209-3061-4ab3-a738-545c4494543d",
+                            Id = "708b598a-fb4b-418f-baf9-811fe7e1621e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1e5a1674-0570-49e1-a394-73014774b02e",
+                            Id = "4da99576-6770-4949-9241-0c57bda1d7a1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -739,7 +740,15 @@ namespace Repositories.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Entities.Models.Instructors", "Instructors")
+                        .WithMany()
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("CoursesCategories");
+
+                    b.Navigation("Instructors");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

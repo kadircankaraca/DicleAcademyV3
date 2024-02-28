@@ -27,7 +27,7 @@ namespace Services.EFCore
 
     public CoursesCategoriesDto GetByIdCoursesCategories(int id)
     {
-        var category = _repository.CoursesCategories.GetCoursesCategories(id, false);
+        var category = _repository.CoursesCategories.GetCoursesCategories(id, false).SingleOrDefault();
         var categoryDto = _mapper.Map<CoursesCategoriesDto>(category);
         return categoryDto;
     }

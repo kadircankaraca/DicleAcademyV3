@@ -1,4 +1,4 @@
-﻿
+﻿@model List<SkillsDto>
 <div class="container-fluid">
     <!-- start page title -->
     <div class="row">
@@ -7,11 +7,11 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Instructor</a></li>
-                        <li class="breadcrumb-item active">Instructor Göster</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Skills</a></li>
+                        <li class="breadcrumb-item active">Skills Göster</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Instructor Göster</h4>
+                <h4 class="page-title">Skills Göster</h4>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="header-title">Instructor Göster</h4>
+                    <h4 class="header-title">Skills Göster</h4>
 
                 </div>
                 <div class="card-body">
@@ -30,58 +30,40 @@
                                 <tr>
                                     <th>Yetenek Başlığı</th>
                                     <th>Yetenek Açıklaması</th>
+                                    <th>Yetenek İkonu</th>
                                     <th style="text-align: right;">Güncelle / Sil</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Yetenek Başlığı</td>
-                                    <td>Yetenek Açıklaması</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Yetenek Başlığı</td>
-                                    <td>Yetenek Açıklaması</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Yetenek Başlığı</td>
-                                    <td>Yetenek Açıklaması</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Yetenek Başlığı</td>
-                                    <td>Yetenek Açıklaması</td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @foreach (var skill in Model)
+                                {
+                                    <tr>
+                                        <td>@skill.SkillTitle</td>
+                                        <td>@skill.SkillDescription</td>
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <i class="fa fa-3x @skill.SkillImage text-primary mb-4"></i>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-block;">
+                                                <form method="get" action="/Skill/UpdateSkill">
+                                                    <input type="hidden" name="SkillId" value="@skill.SkillId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-settings-3-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div style="display: inline-block;">
+                                                <form method="post" action="/Skill/DeleteSkill">
+                                                    <input type="hidden" name="SkillId" value="@skill.SkillId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-delete-bin-2-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>  <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                        </td>
+                                    </tr>
+                                }
+
                             </tbody>
                         </table>
                     </div> <!-- end table-responsive-->
@@ -90,3 +72,19 @@
         </div><!-- end col-->
     </div><!-- end row-->
 </div> <!-- container -->
+
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("Skill Başarıyla Silindi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>

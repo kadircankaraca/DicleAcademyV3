@@ -26,7 +26,7 @@ namespace Services.EFCore
 
 		public GetInTouchDto GetByIdGetInTouch(int id)
 		{
-			var getInTouchEntity = _repository.GetInTouch.GetGetInTouch(id, false);
+			var getInTouchEntity = _repository.GetInTouch.GetGetInTouch(id, false).SingleOrDefault();
 			var getInTouchDto = _mapper.Map<GetInTouchDto>(getInTouchEntity);
 			return getInTouchDto;
 		}

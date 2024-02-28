@@ -1,4 +1,5 @@
-﻿<!-- Start Content-->
+﻿@model List<CoursesCategoriesDto>
+<!-- Start Content-->
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -36,86 +37,64 @@
                             <thead>
                                 <tr>
                                     <th>Kategori Adı</th>
+                                    <th>Kategori Açıklaması</th>
                                     <th>Kategori Fotoğrafı</th>
+                                    <th>Toplam Kurs Sayısı</th>
                                     <th style="text-align: right;">Güncelle / Sil</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Backend</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-2.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Frontend</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-2.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Yapay Zeka</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-2.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Web</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-2.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.CategoryName</td>
+                                        <td>@item.CategoryDescription</td>
+                                        <td class="table-user">
+                                            <img src="~/Images/CoursesCategoriesImages/@item.CategoryImage" alt="table-user"
+                                                 class="me-2 rounded-circle" />
+                                        </td>
+                                        <td>@item.TotalCourseNumber</td>
+                                        <td style="text-align:right;">
+                                            <div style="display: inline-block;">
+                                                <form method="get" action="/CoursesCategories/UpdateCoursesCategories">
+                                                    <input type="hidden" name="CategoryId" value="@item.CategoryId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-settings-3-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div style="display: inline-block;">
+                                                <form method="post" action="/CoursesCategories/DeleteCoursesCategories">
+                                                    <input type="hidden" name="CategoryId" value="@item.CategoryId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-delete-bin-2-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div> <!-- end table-responsive-->
-
                 </div> <!-- end card body-->
             </div> <!-- end card -->
         </div><!-- end col-->
-
-
-    </div>
-    <!-- end row-->
-
-
+    </div> <!-- end row-->
 </div> <!-- container -->
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("Kategori Başarıyla Silindi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>

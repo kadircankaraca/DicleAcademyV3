@@ -18,6 +18,7 @@ namespace Services.Contracts
         private readonly Lazy<IAboutUsService> _about;
         private readonly Lazy<IBestCoursesService> _bestCourses;
         private readonly Lazy<IContactService> _contact;
+        private readonly Lazy<IContactUsService> _contactUs;
         private readonly Lazy<ICourseDetailsService> _courseDetails;
         private readonly Lazy<ICoursesCategoriesService> _coursesCategories;
         private readonly Lazy<ICoursesService> _courses;
@@ -39,6 +40,7 @@ namespace Services.Contracts
             _about = new Lazy<IAboutUsService>(() => new AboutUsService(repository, mapper));
             _bestCourses = new Lazy<IBestCoursesService>(() => new BestCoursesService(repository, mapper));
             _contact = new Lazy<IContactService>(() => new ContactService(repository, mapper));
+            _contactUs = new Lazy<IContactUsService> (() => new ContactUsService(repository, mapper));
             _courseDetails = new Lazy<ICourseDetailsService>(() => new CourseDetailsService(repository, mapper));
             _coursesCategories = new Lazy<ICoursesCategoriesService>(() => new CoursesCategoriesService(repository, mapper));
             _courses = new Lazy<ICoursesService>(() => new CoursesService(repository, mapper));
@@ -61,6 +63,8 @@ namespace Services.Contracts
 
         // ContactService servisini döndürür
         public IContactService ContactService => _contact.Value;
+
+        public IContactUsService ContactUsService => _contactUs.Value;
 
         // CourseDetailsService servisini döndürür
         public ICourseDetailsService CourseDetailsService => _courseDetails.Value;

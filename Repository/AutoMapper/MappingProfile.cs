@@ -19,6 +19,8 @@ namespace Repositories.AutoMapper
             CreateMap<BestCourses, BestCoursesDto>();
             CreateMap<ContactDto, Contact>();
             CreateMap<Contact, ContactDto>();
+            CreateMap<ContactUsDto, ContactUs>();
+            CreateMap<ContactUs, ContactUsDto>();
             CreateMap<CourseDetailsDto, CourseDetails>();
             CreateMap<CourseDetails, CourseDetailsDto>();
             CreateMap<CoursesDto, Courses>().ForMember(des => des.CoursesCategories, opt => opt.Ignore());
@@ -41,9 +43,8 @@ namespace Repositories.AutoMapper
             CreateMap<StudentsSay, StudentsSayDto>();
             CreateMap<WelcomeInformationsDto, WelcomeInformations>();
             CreateMap<WelcomeInformations, WelcomeInformationsDto>();
-            CreateMap<UserForAuthenticationDto, User>();
-            CreateMap<User, UserForAuthenticationDto>();
-
+            CreateMap<UserForRegistrationDto, User>();
+            CreateMap<User, UserForRegistrationDto>();
 
         }
     }

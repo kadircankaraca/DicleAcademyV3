@@ -1,4 +1,4 @@
-﻿@model Tuple< List<GetCategoryWithCoursesDto> , List<CoursesCategoriesDto>>
+﻿@model Tuple< List<GetCategoryWithCoursesDto> , List<CoursesCategoriesDto>, List<InstructorsDto>>
 <div class="container-fluid bg-primary py-5 mb-5 page-header">
     <div class="container py-5">
         <div class="row justify-content-center">
@@ -44,7 +44,14 @@
                                     <h5 class="mb-4">@item2.CourseName</h5>
                                 </div>
                                 <div class="d-flex border-top">
-                                    <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>@item2.InstructorsName</small>
+                                    <small class="flex-fill text-center border-end py-2">
+                                        <i class="fa fa-user-tie text-primary me-2"></i>
+                                        @{
+                                            var instructors = Model.Item3.FirstOrDefault(c => c.InstructorId == item2.InstructorId);
+                                            string instructorName = instructors != null ? instructors.InstructorName : "";
+                                        }
+                                        @instructorName
+                                    </small>
                                     <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>@item2.CoursesDuration</small>
                                     <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>@item2.CoursesQuota Students</small>
                                 </div>

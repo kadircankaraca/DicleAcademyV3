@@ -25,7 +25,7 @@ public class ContactService : IContactService
 
 	public ContactDto GetByIdContact(int id)
 	{
-		var contact = _repository.Contact.GetContact(id,false);
+		var contact = _repository.Contact.GetContact(id,false).SingleOrDefault();
 		var contactDto = _mapper.Map<ContactDto>(contact);
 		return contactDto;
 	}

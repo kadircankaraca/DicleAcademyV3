@@ -1,0 +1,136 @@
+﻿@model Tuple<CoursesDto, List<InstructorsDto>, List<CoursesCategoriesDto>>
+<!-- Begin page -->
+<!-- Start Content-->
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Course</a></li>
+                        <li class="breadcrumb-item active">Course Göster</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Course Göster</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="header-title">Courses</h4>
+                    <!--
+                    <p class="text-muted mb-0">
+                        Use <code>.table-striped</code> to add zebra-striping to any table row
+                        within the <code>&lt;tbody&gt;</code>.
+                    </p>
+                    -->
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive-sm">
+                        <table class="table table-striped table-centered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Özellik</th>
+                                    <th></th>
+                                    <th>Değer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <form method="post" action="/Course/UpdateCoursePost" enctype="multipart/form-data">
+                                <tr>
+                                    <td>Kurs Adı</td>
+                                    <td></td>
+                                    <td><input type="text" name="CourseName" value="@Model.Item1.CourseName"></td>
+                                </tr>
+                                <tr>
+                                    <td>Eğitmen</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="mb-3">
+                                            <select class="form-select" id="example-select" name="InstructorId">
+                                                    @foreach (var item in Model.Item2)
+                                                    {
+                                                    <option value="@item.InstructorId">@item.InstructorName</option>
+                                                    }
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kurs Süresi</td>
+                                    <td></td>
+                                    <td><input type="text" name="CoursesDuration" value="@Model.Item1.CoursesDuration"></td>
+                                </tr>
+                                <tr>
+                                    <td>Kontenjan</td>
+                                    <td></td>
+                                    <td><input type="text" name="CoursesQuota" value="@Model.Item1.CoursesQuota"></td>
+                                </tr>
+                                <tr>
+                                    <td>Fotoğraf</td>
+                                    <td class="table-user">
+                                        <img src="~/Images/CourseImages/@Model.Item1.Image" alt="table-user"
+                                             class="me-2 rounded-circle" />
+                                    </td>
+                                    <td>
+                                        <input type="file" name="newImage" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kategori</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="mb-3">
+                                            <select class="form-select" id="example-select" name="CategoryId">
+                                                    @foreach (var item in Model.Item3)
+                                                    {
+                                                    <option value="@item.CategoryId">@item.CategoryName</option>
+                                                    }
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align: right;">
+                                        <input type="hidden" name="CourseId" value="@Model.Item1.CourseId" />
+                                        <button type="submit" class="btn btn-link text-reset fs-16 px-1">Onayla</button>
+                                    </td>
+                                </tr>
+                                </form>
+                            </tbody>
+                            <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                        </table>
+                    </div> <!-- end table-responsive-->
+                </div>
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div>
+    <!-- end row-->
+</div> <!-- container -->
+<!-- end Footer -->
+
+
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("Course Başarıyla Güncellendi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>

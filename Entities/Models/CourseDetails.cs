@@ -15,7 +15,7 @@ namespace Entities.Models
         public string CourseName { get; set; }
         public string CourseDescription { get; set; }
         public string CourseLocation { get; set; }
-        public int CourseDuration { get; set; } //kurs süresi
+        public double CourseDuration { get; set; } //kurs süresi
         public string Image {  get; set; }
 
         [ForeignKey("CourseId")]

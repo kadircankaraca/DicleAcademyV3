@@ -1,4 +1,4 @@
-﻿
+﻿@model Tuple<List<CoursesDto>, List<InstructorsDto>, List<CoursesCategoriesDto>>
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -17,18 +17,11 @@
         </div>
     </div>
     <!-- end page title -->
-
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <h4 class="header-title">Course Göster</h4>
-                    <!--
-                    <p class="text-muted mb-0">
-                        Use <code>.table-striped</code> to add zebra-striping to any table row
-                        within the <code>&lt;tbody&gt;</code>.
-                    </p>
-                    -->
                 </div>
                 <div class="card-body">
                     <div class="table-responsive-sm">
@@ -39,88 +32,57 @@
                                     <th>Eğitmen Adı</th>
                                     <th>Kurs Süresi</th>
                                     <th>Kurs Kontenjanı</th>
-                                    <th>Kategori Id</th>
+                                    <th>Kategori Adı</th>
                                     <th>Kurs Fotoğrafı</th>
                                     <th style="text-align: right;">Güncelle / Sil</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Backend</td>
-                                    <td>Metin Öğet</td>
-                                    <td>2</td>
-                                    <td>30</td>
-                                    <td>1</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-2.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Frontend</td>
-                                    <td>Metin Öğet</td>
-                                    <td>2</td>
-                                    <td>30</td>
-                                    <td>1</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-2.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Yapay Zeka</td>
-                                    <td>Metin Öğet</td>
-                                    <td>2</td>
-                                    <td>30</td>
-                                    <td>1</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-2.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Web</td>
-                                    <td>Metin Öğet</td>
-                                    <td>2</td>
-                                    <td>30</td>
-                                    <td>1</td>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-2.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @foreach (var item in Model.Item1)
+                                {
+                                    <tr>
+                                        <td>@item.CourseName</td>
+                                        <td>
+                                            @{
+                                                var instructor = Model.Item2.FirstOrDefault(c => c.InstructorId == item.InstructorId);
+                                                string instructorName = instructor != null ? instructor.InstructorName : "";
+                                            }
+                                            @instructorName
+                                        </td>
+                                        <td>@item.CoursesDuration</td>
+                                        <td>@item.CoursesQuota</td>
+                                        <td>
+                                            @{
+                                                var category = Model.Item3.FirstOrDefault(c => c.CategoryId == item.CategoryId);
+                                                string categoryName = category != null ? category.CategoryName : "";
+                                            }
+                                            @categoryName
+                                        </td>
+                                        <td class="table-user">
+                                            <img src="~/Images/CourseImages/@item.Image" alt="table-user"
+                                                 class="me-2 rounded-circle" />
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-block;">
+                                                <form method="get" action="/Course/UpdateCourse">
+                                                    <input type="hidden" name="CourseId" value="@item.CourseId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-settings-3-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div style="display: inline-block;">
+                                                <form method="post" action="/Course/DeleteCourse">
+                                                    <input type="hidden" name="CourseId" value="@item.CourseId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-delete-bin-2-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div> <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                        </td>
+                                    </tr>
+                                }
+
                             </tbody>
                         </table>
                     </div> <!-- end table-responsive-->

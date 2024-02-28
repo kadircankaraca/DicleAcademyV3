@@ -31,6 +31,7 @@ namespace DicleAcademy.Controllers
         {
             var header = _headerService.GetAllHeader();
             var bestCourses = _bestcoursesService.GetAllBestCourses();
+            var instructors = _instructorsService.GetAllInstructors();
             var courses = new List<CoursesDto>();
             //IQueryable<List<CoursesDto>> courses;
             foreach (var course in bestCourses)
@@ -43,7 +44,7 @@ namespace DicleAcademy.Controllers
             var instruct = _instructorsService.GetAllInstructors();
             var studentSay = _studentsSayService.GetAllStudentsSay();
             //welcome abaout skills courses  InstructorsDto Testimonial
-            return View(Tuple.Create((List<CoursesDto>)courses, (List<WelcomeInformationsDto>)welcome, (List<SkillsDto>)skills, (List<InstructorsDto>)instruct, (List<StudentsSayDto>)studentSay, (List<HeaderDto>)header));
+            return View(Tuple.Create((List<CoursesDto>)courses, (List<WelcomeInformationsDto>)welcome, (List<SkillsDto>)skills, (List<InstructorsDto>)instruct, (List<StudentsSayDto>)studentSay, (List<HeaderDto>)header, (List<InstructorsDto>)instructors));
         }
 
 

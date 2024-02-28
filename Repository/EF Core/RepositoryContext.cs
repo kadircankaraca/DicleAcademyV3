@@ -27,6 +27,7 @@ namespace Repositories.EF_Core
         public DbSet<Gallery> Gallery { get; set; }
         public DbSet<GetInTouch> GetInTouch { get; set; }
         public DbSet<Instructors> Instructors { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Skills> Skills { get; set; }
         public DbSet<WelcomeInformations> WelcomeInformations { get; set; }
         public DbSet<StudentsSay> StudentsSay { get; set; }

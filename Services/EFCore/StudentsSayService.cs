@@ -25,7 +25,7 @@ public class StudentsSayService : IStudentsSayService
 
     public StudentsSayDto GetByIdStudentsSay(int id)
     {
-        var studentsSay = _repository.StudentsSay.GetStudentsSay(id, false);
+        var studentsSay = _repository.StudentsSay.GetStudentsSay(id, false).SingleOrDefault();
         return _mapper.Map<StudentsSayDto>(studentsSay);
     }
 
@@ -42,7 +42,7 @@ public class StudentsSayService : IStudentsSayService
         var studentsSay = _repository.StudentsSay.GetStudentsSay(studentsSayDto.StudentsSayId, false).SingleOrDefault();
         if (studentsSay != null)
         {
-            var updatedStudentsSay = _mapper.Map<StudentsSay>(studentsSay);
+            var updatedStudentsSay = _mapper.Map<StudentsSay>(studentsSayDto);
             _repository.StudentsSay.GenericUpdate(updatedStudentsSay);
             _repository.Save();
         }

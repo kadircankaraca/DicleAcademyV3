@@ -42,7 +42,7 @@ namespace Services.EFCore
 		public void UpdateCourseDetails(CourseDetailsDto courseDetailsDto)
 		{
 			var updateCourseDetails = _repository.CourseDetails
-				.GetCourseDetails(courseDetailsDto.CourseDetailId, false).SingleOrDefault();
+				.GetCourseDetails(courseDetailsDto.CourseDetailsId, false).SingleOrDefault();
 			if (updateCourseDetails != null)
 			{
 				var upCourseDetails = _mapper.Map<CourseDetails>(courseDetailsDto);

@@ -26,7 +26,7 @@ namespace Services.EFCore
 
 		public SkillsDto GetByIdSkills(int id)
 		{
-			var skill = _repository.Skills.GetSkills(id, false);
+			var skill = _repository.Skills.GetSkills(id, false).SingleOrDefault();
 			var skillDto = _mapper.Map<SkillsDto>(skill);
 			return skillDto;
 		}
@@ -45,7 +45,7 @@ namespace Services.EFCore
 			var updateSkill = _repository.Skills.GetSkills(skillsDto.SkillId, false).SingleOrDefault();
 			if (updateSkill != null)
 			{
-				_mapper.Map<Skills>(skillsDto);
+				updateSkill = _mapper.Map<Skills>(skillsDto);
 				_repository.Skills.GenericUpdate(updateSkill);
 				_repository.Save();
 			}

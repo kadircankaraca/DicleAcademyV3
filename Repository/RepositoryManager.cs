@@ -15,6 +15,7 @@ namespace Repositories
         private readonly Lazy<IRepositoryUser> _repositoryUser;
         private readonly Lazy<IRepositoryBestCourses> _repositoryBestCourses;
         private readonly Lazy<IRepositoryContact> _repositoryContact;
+        private readonly Lazy<IRepositoryContactUs> _repositoryContactUs;
         private readonly Lazy<IRepositoryCourseDetails> _repositoryCourseDetails;
         private readonly Lazy<IRepositoryCourses> _repositoryCourses;
         private readonly Lazy<IRepositoryCoursesCategories> _repositoryCoursesCategories;
@@ -34,6 +35,7 @@ namespace Repositories
             _repositoryUser = new Lazy<IRepositoryUser>(() => new RepositoryUser(_context));
             _repositoryBestCourses = new Lazy<IRepositoryBestCourses>(() => new RepositoryBestCourses(_context));
             _repositoryContact = new Lazy<IRepositoryContact>(() => new RepositoryContact(_context));
+            _repositoryContactUs = new Lazy<IRepositoryContactUs>(() => new RepositoryContactUs(_context));
             _repositoryCourseDetails = new Lazy<IRepositoryCourseDetails>(() => new RepositoryCourseDetails(_context));
             _repositoryCourses = new Lazy<IRepositoryCourses>(() => new RepositoryCourses(_context));
             _repositoryCoursesCategories = new Lazy<IRepositoryCoursesCategories>(() => new RepositoryCoursesCategories(_context));
@@ -50,6 +52,7 @@ namespace Repositories
         public IRepositoryAboutUs AboutUs => _repositoryAboutUs.Value;
         public IRepositoryBestCourses BestCourses => _repositoryBestCourses.Value;
         public IRepositoryContact Contact => _repositoryContact.Value;
+        public IRepositoryContactUs ContactUs => _repositoryContactUs.Value;
         public IRepositoryCourseDetails CourseDetails => _repositoryCourseDetails.Value;
         public IRepositoryCourses Courses => _repositoryCourses.Value;
         public IRepositoryCoursesCategories CoursesCategories => _repositoryCoursesCategories.Value;

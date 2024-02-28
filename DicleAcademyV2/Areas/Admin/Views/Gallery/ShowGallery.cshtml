@@ -1,4 +1,4 @@
-﻿
+﻿@model List<GalleryDto>
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -40,76 +40,55 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-5.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
+                                @foreach(var item in Model)
+                                {
+                                    <tr>
+                                        <td class="table-user">
+                                            <img src="~/Images/GalleryImages/@item.GalleryImage" alt="table-user"
+                                                 class="me-2 rounded-circle" />
+                                        </td>
 
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-5.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-5.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="table-user">
-                                        <img src="~/velonic/assets/images/users/avatar-5.jpg" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-settings-3-line"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="text-reset fs-16 px-1">
-                                            <i class="ri-delete-bin-2-line"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-block;">
+                                                <form method="get" action="/Gallery/UpdateGallery">
+                                                    <input type="hidden" name="GalleryId" value="@item.GalleryId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-settings-3-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div style="display: inline-block;">
+                                                <form method="post" action="/Gallery/DeleteGallery">
+                                                    <input type="hidden" name="GalleryId" value="@item.GalleryId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-delete-bin-2-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div> <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                        </td>
+                                    </tr>
+                                }                               
                             </tbody>
                         </table>
                     </div> <!-- end table-responsive-->
-
                 </div> <!-- end card body-->
             </div> <!-- end card -->
         </div><!-- end col-->
-
-
-    </div>
-    <!-- end row-->
-
-
+    </div><!-- end row-->
 </div> <!-- container -->
+
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("Gallery Başarıyla Silindi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>

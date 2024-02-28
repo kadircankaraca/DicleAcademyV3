@@ -26,7 +26,7 @@ namespace Services.EFCore
 
 		public FAQDto GetByIdFAQ(int id)
 		{
-			var faq = _repository.Faq.GetFAQ(id, false);
+			var faq = _repository.Faq.GetFAQ(id, false).SingleOrDefault();
 			var faqDto = _mapper.Map<FAQDto>(faq);
 			return faqDto;
 		}

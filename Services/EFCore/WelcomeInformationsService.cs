@@ -24,7 +24,7 @@ public class WelcomeInformationsService : IWelcomeInformationsService
 
     public WelcomeInformationsDto GetByIdWelcomeInformations(int id)
     {
-        var welcomeInformations = _repository.WelcomeInformations.GetWelcomeInformations(id, false);
+        var welcomeInformations = _repository.WelcomeInformations.GetWelcomeInformations(id, false).SingleOrDefault();
         return _mapper.Map<WelcomeInformationsDto>(welcomeInformations);
     }
 

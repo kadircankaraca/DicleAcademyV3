@@ -11,6 +11,7 @@ namespace Repositories.Contracts
         IRepositoryAboutUs AboutUs { get; }
         IRepositoryBestCourses BestCourses { get; } // yönetim olduğu için set yapamayız 
         IRepositoryContact Contact { get; }
+        IRepositoryContactUs ContactUs { get; }
         IRepositoryCourseDetails CourseDetails { get; }
         IRepositoryCourses Courses { get; }
         IRepositoryCoursesCategories CoursesCategories { get; }
