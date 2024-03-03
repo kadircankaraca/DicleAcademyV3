@@ -1,0 +1,93 @@
+﻿
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Instructor</a></li>
+                        <li class="breadcrumb-item active">Instructor Ekle</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Instructor Ekle</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="header-title">Instructor</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form action="/Instructor/AddInstructorPost" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Eğitmen Adı</label>
+                                    <input type="text" id="simpleinput" name="InstructorName" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Eğitmen Açıklaması(Tr)</label>
+                                    <input type="text" id="simpleinput" name="InstructorDescription" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Eğitmen Açıklaması(En)</label>
+                                    <input type="text" id="simpleinput" name="InstructorDescriptionEn" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Uzmanlık Alanı(Tr)</label>
+                                    <input type="text" id="simpleinput" name="AreaOfExpertise" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Uzmanlık Alanı(En)</label>
+                                    <input type="text" id="simpleinput" name="AreaOfExpertiseEn" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="example-fileinput" class="form-label">Fotoğraf</label>
+                                    <input type="file" id="example-fileinput" name="image" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Twitter</label>
+                                    <input type="text" id="simpleinput" name="TwitterAccountURL" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Facebook</label>
+                                    <input type="text" id="simpleinput" name="FacebookAccountURL" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Instagram</label>
+                                    <input type="text" id="simpleinput" name="InstagramAcoountURL" class="form-control">
+                                </div>
+                                <div style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary">Ekle</button>
+                                </div>
+                            </form>
+                        </div> <input value="@ViewBag.Message" id="bag" style="display:none;" /> <!-- end col -->
+                    </div><!-- end row-->
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
+        </div><!-- end col -->
+    </div><!-- end row -->
+</div> <!-- container -->
+
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("Instructor Başarıyla Eklendi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>

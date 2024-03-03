@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Entities.ModelsDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Services.EFCore;
@@ -7,6 +8,7 @@ using Services.EFCore;
 namespace DicleAcademyV2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ContactController : Controller
     {
         private readonly IContactService _contactService;
@@ -14,27 +16,26 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
         {
             _contactService = contactService;
         }
-        public IActionResult ShowContact()
+        public List<ContactDto> ShowContact()
         {
             List<ContactDto> contactList = new List<ContactDto>();
             contactList = _contactService.GetAllContact().ToList();
 
-            return View(contactList);
+            return contactList;
         }
-        public IActionResult AddContact()
+        public bool AddContact()
         {
-            return View();
+            return true;
         }
-        public IActionResult AddContactPost(ContactDto contactDto)
+        public bool AddContactPost([FromBody] ContactDto contactDto)
         {
             ContactDto incomingDto = _contactService.CreateContact(contactDto);
 
-            if (incomingDto is not null) ViewBag.Message = "Başarılı";
-            else ViewBag.Message = "Başarısız";
+            if (incomingDto is not null) return true;
+            else return false;
 
-            return View("AddContact");
         }
-        public IActionResult UpdateContactPost(ContactDto contactDto)
+        public List<ContactDto> UpdateContactPost([FromBody] ContactDto contactDto)
         {
             _contactService.UpdateContact(contactDto);
 
@@ -43,30 +44,24 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             List<ContactDto> contactList = new List<ContactDto>();
             contactList = _contactService.GetAllContact().ToList();
 
-            return View("ShowContact", contactList);
+            return contactList;
         }
-        public IActionResult UpdateContact(int contactId)
+        public ContactDto UpdateContact(int contactId)
         {
             ContactDto contactDto = new ContactDto();
 
             contactDto = _contactService.GetByIdContact(contactId);
 
-            return View(contactDto);
+            return contactDto;
         }
-        public IActionResult DeleteContact(int contactId)
+        public List<ContactDto> DeleteContact(int contactId)
         {
-            ContactDto contactDto = new ContactDto();
             List<ContactDto> contactList = new List<ContactDto>();
-
             _contactService.DeleteContact(contactId);
-            contactDto = _contactService.GetByIdContact(contactId);
-
-            if (contactDto is null) ViewBag.Message = "Başarılı";
-            else ViewBag.Message = "Başarısız";
 
             contactList = _contactService.GetAllContact().ToList();
 
-            return View("ShowContact", contactList);
+            return contactList;
         }
     }
 }

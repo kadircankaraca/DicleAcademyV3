@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Entities.ModelsDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Services.EFCore;
@@ -8,6 +9,7 @@ using System.Drawing.Drawing2D;
 namespace DicleAcademyV2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class BestCoursesController : Controller
     {
         private readonly IBestCoursesService _bestCoursesService;
@@ -18,16 +20,14 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             _coursesService = coursesService;
 
         }
-        public IActionResult AddBestCourses()
+        public List<CoursesDto> AddBestCourses()
         {
             List<CoursesDto> courseList = new List<CoursesDto>();
             courseList = _coursesService.GetAllCourses().ToList();
-            
-            BestCoursesDto bestCoursesDto = new BestCoursesDto();
 
-            return View(Tuple.Create(bestCoursesDto, courseList));
+            return (courseList);
         }
-        public IActionResult AddBestCoursesPost(BestCoursesDto incomingBestCoursesDto)
+        public bool AddBestCoursesPost([FromBody] BestCoursesDto incomingBestCoursesDto)
         {
             List<BestCoursesDto> bestCourseList = new List<BestCoursesDto>();
             List<CoursesDto> courseList = new List<CoursesDto>();
@@ -45,51 +45,39 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
                 }
             }
             
-            if(isCourseAlreadyAvailable is true)  ViewBag.Message = "Başarısız";
+            if(isCourseAlreadyAvailable is true) return false;
             else
             {
                 incomingDto = _bestCoursesService.CreateBestCourses(incomingBestCoursesDto);
-                if (incomingDto is not null) ViewBag.Message = "Başarılı";
-                else ViewBag.Message = "Başarısız";
+                if (incomingDto is not null) return true;
+                else return false;
             }
-
-            return View("AddBestCourses", Tuple.Create(incomingDto, courseList));
         }
-        public IActionResult ShowBestCourses()
+        public List<CoursesDto> GetCourseList()
         {
-            List<CoursesDto> coursesList = new List<CoursesDto>();
+            List<CoursesDto> courseList = _coursesService.GetAllCourses().ToList();
+            return courseList;
+        }
+        public List<BestCoursesDto> ShowBestCourses()
+        {
             List<BestCoursesDto> bestCoursesList = new List<BestCoursesDto>();
 
             bestCoursesList = _bestCoursesService.GetAllBestCourses().ToList();
-            coursesList = _coursesService.GetAllCourses().ToList();
 
-            return View(Tuple.Create(coursesList, bestCoursesList));
+            return bestCoursesList;
         }
-        public IActionResult DeleteBestCourses(int bestCoursesId)
+        public List<BestCoursesDto> DeleteBestCourses(int bestCoursesId)
         {
-            List<CoursesDto> coursesList = new List<CoursesDto>();
-            coursesList = _coursesService.GetAllCourses().ToList();
-
             BestCoursesDto bestCoursesDto = new BestCoursesDto();
-            List<BestCoursesDto> bestCoursesDtoList = new List<BestCoursesDto>();
-
             _bestCoursesService.DeleteBestCourses(bestCoursesId);
 
-            bestCoursesDto = _bestCoursesService.GetByIdBestCourses(bestCoursesId);
+            List<BestCoursesDto> bestCourseList = _bestCoursesService.GetAllBestCourses().ToList();
+            return bestCourseList;
 
-            if (bestCoursesDto is null) ViewBag.Message = "Başarılı";
-            else ViewBag.Message = "Başarısız";
-
-            bestCoursesDtoList = _bestCoursesService.GetAllBestCourses().ToList();
-
-            return View("ShowBestCourses",Tuple.Create(coursesList, bestCoursesDtoList));
-        }
-
-        public IActionResult UpdateBestCoursesPost(BestCoursesDto bestCoursesDto)
+        }   
+        public List<BestCoursesDto> UpdateBestCoursesPost([FromBody] BestCoursesDto bestCoursesDto)
         {
-            BestCoursesDto newBestCoursesDto = new BestCoursesDto();
             List<BestCoursesDto> bestCourseList = new List<BestCoursesDto>();
-            List<CoursesDto> coursesList = new List<CoursesDto>();
             bool isCourseAlreadyAvailable = false;
 
             bestCourseList = _bestCoursesService.GetAllBestCourses().ToList();
@@ -102,28 +90,18 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
                 }
             }
 
-            if (isCourseAlreadyAvailable is true) ViewBag.Message = "Başarısız";
-            else
-            {
-                _bestCoursesService.UpdateBestCourses(bestCoursesDto);
-                ViewBag.Message = "Başarılı";
-            }
+            if (isCourseAlreadyAvailable is false) _bestCoursesService.UpdateBestCourses(bestCoursesDto);
+            bestCourseList = _bestCoursesService.GetAllBestCourses().ToList();
 
-            coursesList = _coursesService.GetAllCourses().ToList();
-
-
-            return View("UpdateBestCourses", Tuple.Create(bestCoursesDto, coursesList));
+            return bestCourseList;
         }
-        public IActionResult UpdateBestCourses(int bestCoursesId)
+        public BestCoursesDto UpdateBestCourses(int bestCoursesId)
         {
-            List<CoursesDto> coursesList = new List<CoursesDto>();
             BestCoursesDto bestCoursesDto = new BestCoursesDto();
-
-            coursesList = _coursesService.GetAllCourses().ToList();
-
             bestCoursesDto = _bestCoursesService.GetByIdBestCourses(bestCoursesId);
 
-            return View(Tuple.Create(bestCoursesDto, coursesList));
+            return bestCoursesDto;
         }
+        
     }
 }

@@ -19,7 +19,7 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
         {
             return View();
         }
-        public async Task UserCheck(UserForAuthenticationDto user)
+        public async Task<IActionResult> UserCheck(UserForAuthenticationDto user)
         {
             //UserForRegistrationDto userr = new UserForRegistrationDto();
 
@@ -44,7 +44,13 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
                 }
             }
             string url = GenerateClient.Client.BaseAddress + "Admin/Index";
-            HttpResponseMessage ProductCategoryResponce = GenerateClient.Client.PostAsync($"{url}", null).Result;
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
+            var data = await GenerateClient.Client.SendAsync(request);
+
+            if (data.IsSuccessStatusCode) return RedirectToAction("Index", "Client");
+            else return RedirectToAction("Login", "User");
+
         }
 
         public IActionResult AddAdmin()

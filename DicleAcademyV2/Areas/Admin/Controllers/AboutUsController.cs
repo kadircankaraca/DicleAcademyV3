@@ -1,11 +1,15 @@
 ﻿using Entities.ModelsDto;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Services.Contracts;
 using System.IO;
 
 namespace DicleAcademyV2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class AboutUsController : Controller
     {
         private readonly IAboutUsService _aboutUsService;
@@ -16,12 +20,15 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             _aboutUsService = aboutUsService;
             _webHostEnvironment = webHostEnvironment;
         }
-        public IActionResult AddAboutUs()
+
+        public bool AddAboutUs()
         {
-            return View();
+            return true;
         }
-        public async Task<IActionResult> AddAboutUsPost(string aboutUsTitle, string aboutUsDescription, IFormFile aboutUsImage)
+        public async Task<bool> AddAboutUsPost(string aboutUsTitle, string aboutUsDescription, IFormFile aboutUsImage)
         {
+
+            
             AboutUsDto aboutUsDto = new AboutUsDto();
 
             if (aboutUsImage != null && aboutUsImage.Length > 0)
@@ -42,19 +49,19 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
 
             AboutUsDto incomingDto = _aboutUsService.CreateAboutUs(aboutUsDto);
 
-            if (incomingDto is not null) ViewBag.Message = "Başarılı";
-            else ViewBag.Message = "Başarısız";
+            if (incomingDto is not null) return true; 
+            else return false; 
 
-            return View("AddAboutUs");
+            
         }
-        public IActionResult ShowAboutUs()
+        public List<AboutUsDto> ShowAboutUs()
         {
             List<AboutUsDto> aboutUsList = new List<AboutUsDto>();
             aboutUsList = _aboutUsService.GetAllAboutUs().ToList();
 
-            return View(aboutUsList);
+            return aboutUsList;
         }
-        public IActionResult DeleteAboutUs(int aboutUsId)
+        public List<AboutUsDto> DeleteAboutUs(int aboutUsId)
         {
             string aboutUsImage = _aboutUsService.GetByIdAboutUs(aboutUsId).AboutUsImage;
             AboutUsDto aboutUsDto = new AboutUsDto();
@@ -63,21 +70,18 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             _aboutUsService.DeleteAboutUs(aboutUsId);
 
             aboutUsDto = _aboutUsService.GetByIdAboutUs(aboutUsId);
-
+            aboutUsDtoList = _aboutUsService.GetAllAboutUs().ToList();
             if (aboutUsDto is null)
             {
                 string path = "AboutUsImages\\" + aboutUsImage;
                 _fileDelete.DeleteFile(_webHostEnvironment, path);
+                
 
-                ViewBag.Message = "Başarılı";
+                return aboutUsDtoList;
             }
-            else ViewBag.Message = "Başarısız";
-
-            aboutUsDtoList = _aboutUsService.GetAllAboutUs().ToList();
-
-            return View("ShowAboutUs", aboutUsDtoList);
+            else return aboutUsDtoList;
         }
-        public async Task<IActionResult> UpdateAboutUsPost(int aboutUsId, string aboutUsTitle, string aboutUsDescription, IFormFile newAboutUsImage)
+        public async Task<List<AboutUsDto>> UpdateAboutUsPost(string aboutUsId, string aboutUsTitle, string aboutUsDescription, IFormFile newAboutUsImage)
         {
             AboutUsDto aboutUsDto = new AboutUsDto();
 
@@ -94,24 +98,26 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             }
             else
             {
-                aboutUsDto.AboutUsImage = _aboutUsService.GetByIdAboutUs(aboutUsId).AboutUsImage;
+                aboutUsDto.AboutUsImage = _aboutUsService.GetByIdAboutUs(Convert.ToInt32(aboutUsId)).AboutUsImage;
             }
 
             aboutUsDto.AboutUsTitle = aboutUsTitle;
             aboutUsDto.AboutUsDescription = aboutUsDescription;
-            aboutUsDto.AboutUsId = aboutUsId;
+            aboutUsDto.AboutUsId = Convert.ToInt32(aboutUsId);
 
             _aboutUsService.UpdateAboutUs(aboutUsDto);
 
-            return View("UpdateAboutUs", aboutUsDto);
+            List<AboutUsDto> list = _aboutUsService.GetAllAboutUs().ToList();
+
+            return list;
         }
-        public IActionResult UpdateAboutUs(int aboutUsId)
+        public AboutUsDto UpdateAboutUs(int aboutUsId)
         {
             AboutUsDto aboutUsDto = new AboutUsDto();
 
             aboutUsDto = _aboutUsService.GetByIdAboutUs(aboutUsId);
 
-            return View(aboutUsDto);
+            return aboutUsDto;
         }
     }
 }

@@ -1,0 +1,103 @@
+﻿@model Tuple<List<CoursesDto>, List<BestCoursesDto>>
+
+<div class="container-fluid">
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">BestCourses</a></li>
+                        <li class="breadcrumb-item active">BestCourses Göster</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">BestCourses Göster</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="header-title">BestCourses Göster</h4>
+                    <!--
+                    <p class="text-muted mb-0">
+                        Use <code>.table-striped</code> to add zebra-striping to any table row
+                        within the <code>&lt;tbody&gt;</code>.
+                    </p>
+                    -->
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive-sm">
+                        <table class="table table-striped table-centered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Kurs Adı</th>
+                                    <th style="text-align: right;">Güncelle / Sil</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model.Item2)
+                                {
+                                    <tr>
+                                        <td>
+                                            @{
+                                                var courses = Model.Item1.FirstOrDefault(c => c.CourseId == item.CourseId);
+                                                string courseName = courses != null ? courses.CourseName : "";
+                                            }
+                                            @courseName
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-block;">
+                                                <form method="get" action="/BestCoursesClient/UpdateBestCoursesClient">
+                                                    <input type="hidden" name="bestCoursesId" value="@item.BestCourseId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-settings-3-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div style="display: inline-block;">
+                                                <form method="post" action="/BestCoursesClient/DeleteBestCoursesClient">
+                                                    <input type="hidden" name="bestCoursesId" value="@item.BestCourseId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-delete-bin-2-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div> <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                        </td>
+                                    </tr>
+                                }
+                                
+                            </tbody>
+                        </table>
+                    </div> <!-- end table-responsive-->
+
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div><!-- end col-->
+
+
+    </div>
+    <!-- end row-->
+
+
+</div> <!-- container -->
+
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("Best Kurs Başarıyla Silindi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>

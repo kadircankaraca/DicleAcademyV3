@@ -13,6 +13,11 @@ builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddControllers()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.PropertyNamingPolicy = null; // Disable camelCase
+        });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,6 +39,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -42,5 +48,10 @@ app.MapAreaControllerRoute(
     name: "Admin",
     areaName: "Admin",
     pattern: "{controller=Admin}/{action=SignIn}/{id?}");
+
+app.MapAreaControllerRoute(
+    name: "Client",
+    areaName: "Client",
+    pattern: "{controller=Client}/{action=Index}/{id?}");
 
 app.Run();

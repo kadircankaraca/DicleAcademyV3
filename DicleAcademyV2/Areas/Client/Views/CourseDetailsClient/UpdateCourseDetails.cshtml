@@ -1,0 +1,107 @@
+﻿@model Tuple<CourseDetailsDto, List<CoursesDto>, List<CoursesCategoriesDto>>
+
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">CourseDetails</a></li>
+                        <li class="breadcrumb-item active">CourseDetails Güncelle</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">CourseDetails Güncelle</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="header-title">CourseDetails</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive-sm">
+                        <table class="table table-striped table-centered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Özellik</th>
+                                    <th></th>
+                                    <th>Değer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <form method="post" action="/CourseDetails/UpdateCourseDetailsPost" enctype="multipart/form-data">
+                                <tr>
+                                    <td>Kurs Adı</td>
+                                    <td></td>
+                                    <td><input style="width: 100%; max-width: 100%; resize: vertical;" type="text" name="CourseName" value="@Model.Item1.CourseName" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Açıklama</td>
+                                    <td></td>
+                                    <td>
+                                        <textarea name="CourseDescription" style="width: 100%; max-width: 100%; min-height: 100px; resize: vertical;">@Model.Item1.CourseDescription
+                                        </textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kurs Konumu</td>
+                                    <td></td>
+                                    <td><input style="width: 100%; max-width: 100%; resize: vertical;" type="text" name="CourseLocation" value="@Model.Item1.CourseLocation"></td>
+                                </tr>
+                                <tr>
+                                    <td>Kurs Süresi</td>
+                                    <td></td>
+                                    <td><input style="width: 100%; max-width: 100%; resize: vertical;" type="text" name="CourseDuration" value="@Model.Item1.CourseDuration" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Kurs</td>
+                                    <td>
+                                            @{
+                                                var course = Model.Item2.FirstOrDefault(c => c.CourseId == Model.Item1.CourseId);
+                                                string courseName = course != null ? course.CourseName : "";
+                                            }
+                                            @courseName
+                                    </td>
+                                    <td>
+                                        <select class="form-select" id="example-select" name="newCourseId">
+                                                @foreach (var item in Model.Item2)
+                                                {
+                                                <option value="@item.CourseId">@item.CourseName</option>
+                                                }
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kurs Fotoğrafı</td>
+                                    <td></td>
+                                    <td class="table-user">
+                                        <img src="~/Images/CourseImages/@Model.Item1.Image" alt="table-user" class="me-2 rounded-circle" 
+                                            name="Image"  />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align: right;">
+                                        <input type="hidden" name="CourseDetailsId" value="@Model.Item1.CourseDetailsId" />
+                                        <button type="submit" class="btn btn-link text-reset fs-16 px-1">Onayla</button>
+                                    </td>
+                                </tr>
+                                </form>
+                            </tbody>
+                        </table>
+                    </div> <!-- end table-responsive-->
+                </div>
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div>
+    <!-- end row-->
+</div> <!-- container -->
+<!-- end Footer -->

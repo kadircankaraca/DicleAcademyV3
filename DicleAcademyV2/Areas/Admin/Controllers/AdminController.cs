@@ -15,9 +15,9 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
         }
 
         [Authorize(Roles ="Admin")]
-        public IActionResult Index()
+        public bool Index()
         {
-            return View();
+            return true;
         }
         public IActionResult SignIn()
         {

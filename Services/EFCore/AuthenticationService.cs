@@ -144,6 +144,8 @@ public class AuthenticationService : IAuthenticationService
         var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
         var user = await _userManager.FindByNameAsync(principal.Identity.Name);
 
+        //await Microsoft.AspNetCore.Authentication.HttpContext.SignInAsync();
+
         if (user is null ||
             user.RefreshToken != tokenDto.RefreshToken ||
             user.RefreshTokenExpiryTime <= DateTime.Now)

@@ -1,4 +1,5 @@
 ﻿using Entities.ModelsDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Services.EFCore;
@@ -6,6 +7,7 @@ using Services.EFCore;
 namespace DicleAcademyV2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CourseController : Controller
     {
         private readonly IInstructorsService _instructorsService;
@@ -23,42 +25,29 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
 
         }
-        public IActionResult AddCourse()
+        public bool AddCourse()
         {
-            List<InstructorsDto> instructorsList = new List<InstructorsDto>();
-            List<CoursesCategoriesDto> categoryList = new List<CoursesCategoriesDto>();
-
-            instructorsList = _instructorsService.GetAllInstructors().ToList();
-            categoryList = _coursesCategoriesService.GetAllCoursesCategories().ToList();
-
-            return View(Tuple.Create(instructorsList, categoryList));
+            return true;
         }
-        public async Task<IActionResult> AddCoursePost(CoursesDto courseDto, IFormFile Image)
+        public async Task<bool> AddCoursePost(CoursesDto courseDto)
         {
-            List<InstructorsDto> instructorsList = new List<InstructorsDto>();
-            List<CoursesCategoriesDto> categoryList = new List<CoursesCategoriesDto>();
-
-            instructorsList = _instructorsService.GetAllInstructors().ToList();
-            categoryList = _coursesCategoriesService.GetAllCoursesCategories().ToList();
-
-            if (Image != null && Image.Length > 0)
+            var data = courseDto;
+            if (courseDto.ImageFile != null && courseDto.ImageFile.Length > 0)
             {
-                var fileName = Path.GetFileName(Image.FileName);
+                var fileName = Path.GetFileName(courseDto.ImageFile.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/CourseImages", fileName);
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    await Image.CopyToAsync(fileStream);
+                    await courseDto.ImageFile.CopyToAsync(fileStream);
                 }
                 courseDto.Image = fileName;
             }
 
             CoursesDto incomingDto = _coursesService.CreateCourses(courseDto);
-            if (incomingDto is not null) ViewBag.Message = "Başarılı";
-            else ViewBag.Message = "Başarısız";
+            if (incomingDto is not null) return true;
+            else return false;
 
-
-            return View("AddCourse", Tuple.Create(instructorsList, categoryList));
         }
         public IActionResult ShowCourse()
         {
@@ -138,6 +127,16 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             List<CoursesCategoriesDto> categoryList = _coursesCategoriesService.GetAllCoursesCategories().ToList();
 
             return View(Tuple.Create(coursesDto, instructorList, categoryList));
+        }
+        public List<CoursesCategoriesDto> GetCategoryList()
+        {
+            List<CoursesCategoriesDto> categoryList = _coursesCategoriesService.GetAllCoursesCategories().ToList();
+            return categoryList;
+        }
+        public List<InstructorsDto> GetInstructorList()
+        {
+            List<InstructorsDto> instructorList = _instructorsService.GetAllInstructors().ToList();
+            return instructorList;
         }
     }
 }

@@ -15,33 +15,26 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             _coursesService = coursesService;
 
         }
-        public IActionResult ShowContactUs()
+        public List<ContactUsDto> ShowContactUs()
         {
-            List<CoursesDto> coursesList = new List<CoursesDto>();
             List<ContactUsDto> contactUsList = new List<ContactUsDto>();
-
             contactUsList = _contactUsService.GetAllContactUs().ToList();
-            coursesList = _coursesService.GetAllCourses().ToList();
 
-            return View(Tuple.Create(coursesList, contactUsList));
+            return contactUsList;
         }
 
-        public IActionResult DeleteContactUs(int contactUsId)
+        public List<ContactUsDto> DeleteContactUs(int contactUsId)
         {
-            ContactUsDto contactUsDto = new ContactUsDto();
-            List<CoursesDto> coursesList = new List<CoursesDto>();
-            List<ContactUsDto> contactUsList = new List<ContactUsDto>();
-             
+            List<ContactUsDto> contactUsList = new List<ContactUsDto>();     
             _contactUsService.DeleteContactUs(contactUsId);
-            contactUsDto = _contactUsService.GetByIdContactUs(contactUsId);
-
-            if (contactUsDto is null) ViewBag.Message = "Başarılı";
-            else ViewBag.Message = "Başarısız";
-
             contactUsList = _contactUsService.GetAllContactUs().ToList();
-            coursesList = _coursesService.GetAllCourses().ToList();
 
-            return View("ShowContactUs", Tuple.Create(coursesList, contactUsList));
+            return contactUsList;
+        }
+        public List<CoursesDto> GetCourseList()
+        {
+            List<CoursesDto> courseList = _coursesService.GetAllCourses().ToList();
+            return courseList;
         }
     }
 }

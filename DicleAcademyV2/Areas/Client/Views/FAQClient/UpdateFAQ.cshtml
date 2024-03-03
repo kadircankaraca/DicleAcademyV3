@@ -1,0 +1,76 @@
+﻿@model FAQDto
+<!-- Begin page -->
+<!-- Start Content-->
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">FAQ</a></li>
+                        <li class="breadcrumb-item active">FAQ Göster</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">FAQ Göster</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="header-title">Markalar</h4>
+                    <!--
+                    <p class="text-muted mb-0">
+                        Use <code>.table-striped</code> to add zebra-striping to any table row
+                        within the <code>&lt;tbody&gt;</code>.
+                    </p>
+                    -->
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive-sm">
+                        <table class="table table-striped table-centered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Soru</th>
+                                    <th>Yeni Soru</th>
+                                    <th>Cevap</th>
+                                    <th>Yeni Cevap</th>
+                                    <th style="text-align: right;">Onay</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <form method="post" action="/FAQ/UpdateFAQPost" enctype="multipart/form-data">
+                                    <td>@Model.Question</td>
+                                    <td><input type="text" asp-for="Question" value="@Model.Question"></td>
+                                    <td>@Model.Answer</td>
+                                    <td><input type="text" asp-for="Answer" value="@Model.Answer"></td>
+                                    <td style="text-align: right;">
+                                        <div style="display: inline-block;">
+
+                                            <input type="hidden" asp-for="FAQId" value="@Model.FAQId" />
+                                            <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                <!-- <i class="ri-check-line"></i>-->
+                                                Onayla
+                                            </button>
+
+                                        </div>
+                                        <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                    </td>
+                                    </form>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- end table-responsive-->
+                </div>
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div> <!-- end row-->
+</div> <!-- container -->
+<!-- end Footer -->

@@ -1,0 +1,99 @@
+﻿@model Tuple<List<CoursesDto>, List<InstructorsDto>, List<CoursesCategoriesDto>>
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Course</a></li>
+                        <li class="breadcrumb-item active">Course Göster</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Course Göster</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="header-title">Course Göster</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive-sm">
+                        <table class="table table-striped table-centered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Kurs Adı</th>
+                                    <th>Eğitmen Adı</th>
+                                    <th>Kurs Süresi</th>
+                                    <th>Kurs Kontenjanı</th>
+                                    <th>Kategori Adı</th>
+                                    <th>Kurs Fotoğrafı</th>
+                                    <th style="text-align: right;">Güncelle / Sil</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Item1)
+                                {
+                                    <tr>
+                                        <td>@item.CourseName</td>
+                                        <td>
+                                            @{
+                                                var instructor = Model.Item2.FirstOrDefault(c => c.InstructorId == item.InstructorId);
+                                                string instructorName = instructor != null ? instructor.InstructorName : "";
+                                            }
+                                            @instructorName
+                                        </td>
+                                        <td>@item.CoursesDuration</td>
+                                        <td>@item.CoursesQuota</td>
+                                        <td>
+                                            @{
+                                                var category = Model.Item3.FirstOrDefault(c => c.CategoryId == item.CategoryId);
+                                                string categoryName = category != null ? category.CategoryName : "";
+                                            }
+                                            @categoryName
+                                        </td>
+                                        <td class="table-user">
+                                            <img src="~/Images/CourseImages/@item.Image" alt="table-user"
+                                                 class="me-2 rounded-circle" />
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <div style="display: inline-block;">
+                                                <form method="get" action="/CourseClient/UpdateCourseClient">
+                                                    <input type="hidden" name="CourseId" value="@item.CourseId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-settings-3-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div style="display: inline-block;">
+                                                <form method="post" action="/CourseClient/DeleteCourseClient">
+                                                    <input type="hidden" name="CourseId" value="@item.CourseId" />
+                                                    <button type="submit" class="btn btn-link text-reset fs-16 px-1">
+                                                        <i class="ri-delete-bin-2-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div> <input value="@ViewBag.Message" id="bag" style="display:none;" />
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div> <!-- end table-responsive-->
+
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div><!-- end col-->
+
+
+    </div>
+    <!-- end row-->
+
+
+</div> <!-- container -->

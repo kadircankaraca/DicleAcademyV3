@@ -1,0 +1,73 @@
+﻿@model Tuple<BestCoursesDto, List<CoursesDto>>    
+            <!-- Start Content-->
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">BestCourses</a></li>
+                        <li class="breadcrumb-item active">BestCourses Ekle</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">BestCourses Ekle</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="header-title">BestCourses</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form action="/BestCoursesClient/AddBestCoursesClientPost" method="post">
+                                <div>
+                                    <label for="example-select" class="form-label">Kurs Adı</label>
+                                    <select class="form-select" id="example-select" name="CourseId">
+                                        @foreach (var item in Model.Item2)
+                                        {
+                                            <option value="@item.CourseId">@item.CourseName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary">Ekle</button>
+                                </div>
+                            </form>
+                        </div> <input value="@ViewBag.Message" id="bag" style="display:none;" /> <!-- end col -->
+
+
+                    </div>
+                    <!-- end row-->
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
+        </div><!-- end col -->
+    </div><!-- end row -->
+
+
+
+</div> <!-- container -->
+
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("BestCourses Başarıyla Eklendi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>

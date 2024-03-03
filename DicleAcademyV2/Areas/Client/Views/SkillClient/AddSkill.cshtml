@@ -1,0 +1,118 @@
+﻿<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Skill</a></li>
+                        <li class="breadcrumb-item active">Skill Ekle</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Skill Ekle</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="header-title">Skill</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form action="/Skill/AddSkillPost" method="post">
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Yetenek Başlığı</label>
+                                    <input type="text" id="simpleinput" name="SkillTitle" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Yetenek Başlığı(En)</label>
+                                    <input type="text" id="simpleinput" name="SkillTitleEn" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Yetenek Açıklaması</label>
+                                    <input type="text" id="simpleinput" name="SkillDescription" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="simpleinput" class="form-label">Yetenek Açıklaması(En)</label>
+                                    <input type="text" id="simpleinput" name="SkillDescriptionEn" class="form-control">
+                                </div>
+                                <div class="mb-3" style="display: flex; align-items: center;">
+                                    <label for="icon_selection" style="margin-right: 10px;">İkon Seçimi:</label>
+                                    <select id="icon_selection" name="SkillImage" onchange="updateIcon()">
+                                        <option value="fa-book-open">Kitap</option>
+                                        <option value="fa-home">Ev</option>
+                                        <option value="fa-globe">Dünya</option>
+                                        <option value="fa-graduation-cap">Kep</option>
+                                        <option value="fa-battery-full">Full Şarj</option>
+                                        <option value="fa-birthday-cake">Doğum Günü Pastası</option>
+                                        <option value="fa-bolt">Şimşek İşareti</option>
+                                        <option value="fa-book">Kapalı Kitap</option>
+                                        <option value="fa-bookmark">Yer İşareti</option>
+                                        <option value="fa-building">Bina</option>
+                                        <option value="fa-business-time">İş Çantası ve Saat</option>
+                                        <option value="fa-calculator">Hesap Makinesi</option>
+                                        <option value="fa-code">Küçüktür Büyüktür Tag</option>
+                                        <option value="fa-coffee">Kahve</option>
+                                        <option value="fa-cog">Ayarlar Sembolü</option>
+                                        <option value="fa-comment">Yorum</option>
+                                        <option value="fa-comments">2 Yorum</option>
+                                        <option value="fa-cloud">Bulut</option>
+                                        <option value="fa-database">Veritabanı</option>
+                                        <option value="fa-desktop">Masaüstü Bilgisayar</option>
+                                        <option value="fa-edit">Düzenle</option>
+                                        <option value="fa-image">Fotoğraf</option>
+                                        <option value="fa-keyboard">Klavye</option>
+                                        <option value="fa-language">Dil</option>
+                                        <option value="fa-laptop-code">Laptop ve Kod</option>
+                                        <option value="fa-less-than">Küçüktür</option>
+                                        <option value="fa-list">Liste</option>
+                                        <option value="fa-mobile-alt">Telefon</option>
+                                        <option value="fa-pause">Durdurma</option>
+                                        <option value="fa-power-off">Güç Düğmesi</option>
+                                        <option value="fa-question">Soru</option>
+                                        <option value="fa-user">Kullanıcı</option>
+                                    </select>
+
+                                    <label id="selected_icon_display" style="margin-left: 20px; margin-top: 20px;"></label>
+                                </div>
+                                <div style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary">Ekle</button>
+                                </div>
+                            </form>
+                        </div> <input value="@ViewBag.Message" id="bag" style="display:none;" />  <!-- end col -->
+                    </div> <!-- end row-->
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
+        </div><!-- end col -->
+    </div><!-- end row -->
+</div> <!-- container -->
+
+<script>
+    var data = document.getElementById("bag").value;
+    console.log("DATA " + data);
+    if (data == "Başarılı") {
+        swal("Skill Başarıyla Eklendi", {
+            icon: "success",
+            button: "Tamam!",
+        });
+    } else if (data == "Başarısız") {
+        swal("Hata oluştu daha sonra tekrar deneyin!", {
+            icon: "error",
+            button: "Tamam!",
+        });
+    }
+</script>
+
+<script>
+    function updateIcon() {
+        var selectedIcon = document.getElementById("icon_selection").value;
+        var iconDisplay = document.getElementById("selected_icon_display");
+        iconDisplay.innerHTML = '<i class="fa fa-3x ' + selectedIcon + ' text-primary mb-4"></i>';
+    }
+</script>

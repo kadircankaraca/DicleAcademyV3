@@ -1,10 +1,12 @@
 ﻿using Entities.ModelsDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 
 namespace DicleAcademyV2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CourseDetailsController : Controller
     {
         private readonly ICourseDetailsService _courseDetailsService;
@@ -16,30 +18,27 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             _coursesService = coursesService;
             _coursesCategoriesService = coursesCategoriesService;
         }
-        public IActionResult AddCourseDetails()
+        public bool AddCourseDetails()
         {
-            List<CoursesDto> courseList = _coursesService.GetAllCourses().ToList();
-            List<CoursesCategoriesDto> categoryList = _coursesCategoriesService.GetAllCoursesCategories().ToList();
-
-            return View(Tuple.Create(courseList, categoryList));
+            return true;
         }
-         public IActionResult AddCourseDetailsPost(CourseDetailsDto courseDetails, string courseDescriptionEn, string courseLocationEn)
+        public List<CoursesDto> AddCourseDetailsPost(CourseDetailsDto courseDetails, string courseDescriptionEn, string courseLocationEn)
         {
             CoursesDto tempDto = _coursesService.GetByIdCourses(courseDetails.CourseId);
             List<CoursesDto> courseList = _coursesService.GetAllCourses().ToList();
             List<CoursesCategoriesDto> categoryList = _coursesCategoriesService.GetAllCoursesCategories().ToList();
             bool isAvailable = false;
 
-            foreach(var course in courseList)
+            foreach (var course in courseList)
             {
-                if(course.CourseId == courseDetails.CourseId)
+                if (course.CourseId == courseDetails.CourseId)
                 {
                     ViewBag.Message = "Başarısız";
                     isAvailable = true;
                 }
             }
 
-            if(!isAvailable)
+            if (!isAvailable)
             {
                 courseDetails.CourseDuration = tempDto.CoursesDuration;
                 courseDetails.CategoryId = tempDto.CategoryId;
@@ -50,11 +49,8 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
 
                 if (incomingDto is not null) ViewBag.Message = "Başarılı";
             }
-           
-            
-
-            return View("AddCourseDetails", Tuple.Create(courseList, categoryList));
-        }      
+            return courseList;
+        }
         public IActionResult ShowCourseDetails()
         {
             List<CoursesDto> courseList = _coursesService.GetAllCourses().ToList();
@@ -70,7 +66,7 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
 
             CourseDetailsDto tempDto = _courseDetailsService.GetByIdCourseDetails(courseDetailsId);
             if (tempDto is not null) _courseDetailsService.Delete(courseDetailsId);
-            
+
             tempDto = _courseDetailsService.GetByIdCourseDetails(courseDetailsId);
 
             if (tempDto is null) ViewBag.Message = "Başarılı";
@@ -85,7 +81,7 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             List<CoursesCategoriesDto> categoryList = _coursesCategoriesService.GetAllCoursesCategories().ToList();
             List<CoursesDto> courseList = _coursesService.GetAllCourses().ToList();
 
-            return View("UpdateCourseDetails",Tuple.Create(courseDetails, courseList, categoryList));
+            return View("UpdateCourseDetails", Tuple.Create(courseDetails, courseList, categoryList));
         }
         public IActionResult UpdateCourseDetailsPost(CourseDetailsDto courseDetails, int newCourseId)
         {
@@ -103,6 +99,17 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             List<CoursesDto> courseList = _coursesService.GetAllCourses().ToList();
 
             return View("ShowCourseDetails", Tuple.Create(courseDetailList, courseList, categoryList));
+        }
+
+        public List<CoursesDto> GetCourseList()
+        {
+            List<CoursesDto> courseList = _coursesService.GetAllCourses().ToList();
+            return courseList;
+        }
+        public List<CoursesCategoriesDto> GetCategoryList()
+        {
+            List<CoursesCategoriesDto> categoryList = _coursesCategoriesService.GetAllCoursesCategories().ToList();
+            return categoryList;
         }
     }
 }
