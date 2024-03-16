@@ -20,12 +20,16 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult AddHeader()
+        public bool AddHeader()
         {
-            return View();
+            return true;
         }
-        public async Task<IActionResult> AddHeaderPost(HeaderDto headerDto, IFormFile image, string headerTitleEn, string headerDescriptionEn)
+        public async Task<bool> AddHeaderPost(string headerTitle, string headerDescription, IFormFile image, string headerTitleEn, string headerDescriptionEn)
         {
+            HeaderDto headerDto = new HeaderDto();
+            headerDto.HeaderDescription = headerDescription;
+            headerDto.HeaderTitle = headerTitle;
+
             if (image != null && image.Length > 0)
             {
                 var fileName = Path.GetFileName(image.FileName);
@@ -40,34 +44,32 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
 
             HeaderDto incomingDto = _headerService.CreateHeader(headerDto);
 
-            if (incomingDto is not null) ViewBag.Message = "Başarılı";           
-            else ViewBag.Message = "Başarısız";
-
-            return View("AddHeader");
+            if (incomingDto is not null) return true;      
+            else return false;
         }
-        public IActionResult ShowHeader()
-        {
-            List<HeaderDto> headerDto = _headerService.GetAllHeader().ToList();
-
-            return View(headerDto);
-        }
-        public IActionResult UpdateHeader(int headerId)
-        {
-            HeaderDto header = _headerService.GetByIdHeader(headerId);
-            return View(header);
-        }
-        public async Task<IActionResult> UpdateHeaderPost(HeaderDto headerDto, IFormFile image)
+        public List<HeaderDto> ShowHeader()
         {
             List<HeaderDto> headerList = _headerService.GetAllHeader().ToList();
 
-            if (image != null && image.Length > 0)
+            return headerList;
+        }
+        public HeaderDto UpdateHeader(int headerId)
+        {
+            HeaderDto header = _headerService.GetByIdHeader(headerId);
+            return header;
+        }
+        public async Task<List<HeaderDto>> UpdateHeaderPost(string headerId, string headerTitle, string headerDescription, IFormFile newHeaderImage)
+        {
+            HeaderDto headerDto = new HeaderDto();
+           
+            if (newHeaderImage != null && newHeaderImage.Length > 0)
             {
-                var fileName = Path.GetFileName(image.FileName);
+                var fileName = Path.GetFileName(newHeaderImage.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/HeaderImages", fileName);
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    await image.CopyToAsync(fileStream);
+                    await newHeaderImage.CopyToAsync(fileStream);
                 }
                 headerDto.HeaderImage = fileName;
             }
@@ -75,12 +77,31 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             {
                 headerDto.HeaderImage = _headerService.GetByIdHeader(headerDto.HeaderId).HeaderImage;
             }
+            headerDto.HeaderDescription = headerDescription;
+            headerDto.HeaderTitle = headerTitle;
+            headerDto.HeaderId = Convert.ToInt32(headerId);
 
             _headerService.UpdateHeader(headerDto);
 
-            return View("ShowHeader", headerList);
+            List<HeaderDto> headerList = _headerService.GetAllHeader().ToList();
+            return headerList;
         }
-        public IActionResult DeleteHeader(int headerId)
+
+        public  List<HeaderDto> UpdateHeaderPostNoImage(string headerId, string headerTitle, string headerDescription)
+        {
+            HeaderDto headerDto = new HeaderDto();
+
+            headerDto.HeaderImage = _headerService.GetByIdHeader(Convert.ToInt32(headerId)).HeaderImage;
+            headerDto.HeaderDescription = headerDescription;
+            headerDto.HeaderTitle = headerTitle;
+            headerDto.HeaderId = Convert.ToInt32(headerId);
+
+            _headerService.UpdateHeader(headerDto);
+
+            List<HeaderDto> headerList = _headerService.GetAllHeader().ToList();
+            return headerList;
+        }
+        public List<HeaderDto> DeleteHeader(int headerId)
         {
             string image = _headerService.GetByIdHeader(headerId).HeaderImage;
 
@@ -95,11 +116,9 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
                 string path = "HeaderImages\\" + image;
                 _fileDelete.DeleteFile(_webHostEnvironment, path);
 
-                ViewBag.Message = "Başarılı";
+                return headerList;
             }
-            else ViewBag.Message = "Başarısız";
-
-            return View("ShowHeader", headerList);
+            else return headerList;
         }
     }
 }

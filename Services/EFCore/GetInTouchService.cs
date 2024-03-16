@@ -46,7 +46,7 @@ namespace Services.EFCore
 				.GetGetInTouch(getInTouchDto.GetInTouchId, false).SingleOrDefault();
 			if (updateGetInTouch!= null)
 			{
-				var updatedGetInTouch = _mapper.Map<GetInTouch>(updateGetInTouch);
+				var updatedGetInTouch = _mapper.Map<GetInTouch>(getInTouchDto);
 				_repository.GetInTouch.GenericUpdate(updatedGetInTouch);
 				_repository.Save();
 			}

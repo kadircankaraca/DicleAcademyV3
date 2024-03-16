@@ -1,4 +1,5 @@
 ﻿using Entities.ModelsDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Services.EFCore;
@@ -6,6 +7,7 @@ using Services.EFCore;
 namespace DicleAcademyV2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class GalleryController : Controller
     {
         private readonly IGalleryService _galleryService;
@@ -16,11 +18,11 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             _galleryService = galleryService;
             _webHostEnvironment = webHostEnvironment;
         }
-        public IActionResult AddGallery()
+        public bool AddGallery()
         {
-            return View();
+            return true;
         }
-        public async Task<IActionResult> AddGalleryPost(IFormFile galleryImage)
+        public async Task<bool> AddGalleryPost(IFormFile galleryImage)
         {
             GalleryDto galleryDto = new GalleryDto();
 
@@ -38,18 +40,16 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
 
             GalleryDto incomingDto = _galleryService.CreateGallery(galleryDto);
 
-            if (incomingDto is not null) ViewBag.Message = "Başarılı";
-            else ViewBag.Message = "Başarısız";
-
-            return View("AddGallery");
+            if (incomingDto is not null) return true;
+            else return false;
         }
-        public IActionResult ShowGallery()
+        public List<GalleryDto> ShowGallery()
         {
             List<GalleryDto> galleryList = _galleryService.GetAllGallery().ToList();
 
-            return View(galleryList);
+            return galleryList;
         }
-        public IActionResult DeleteGallery(int galleryId)
+        public List<GalleryDto> DeleteGallery(int galleryId)
         {
             string galleryImage = _galleryService.GetByIdGallery(galleryId).GalleryImage;
             GalleryDto galleryDto = new GalleryDto();
@@ -64,18 +64,17 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
                 string path = "GalleryImages\\" + galleryImage;
                 _fileDelete.DeleteFile(_webHostEnvironment, path);
 
-                ViewBag.Message = "Başarılı";
             }
-            else ViewBag.Message = "Başarısız";
 
             galleryDtoList = _galleryService.GetAllGallery().ToList();
 
-            return View("ShowGallery", galleryDtoList);
+            return galleryDtoList;
         }
-        public async Task<IActionResult> UpdateGalleryPost(int galleryId, IFormFile newGalleryImage)
+        public async Task<List<GalleryDto>> UpdateGalleryPost(int galleryId, IFormFile newGalleryImage)
         {
             List<GalleryDto> galleryList = _galleryService.GetAllGallery().ToList();
             GalleryDto galleryDto = new GalleryDto();
+            galleryDto.GalleryId = galleryId;
 
             if (newGalleryImage != null && newGalleryImage.Length > 0)
             {
@@ -96,13 +95,14 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
 
             _galleryService.UpdateGallery(galleryDto);
 
-            return View("ShowGallery", galleryList);
+            galleryList = _galleryService.GetAllGallery().ToList();
+            return galleryList;
         }
-        public IActionResult UpdateGallery(int galleryId)
+        public GalleryDto UpdateGallery(int galleryId)
         {
             GalleryDto galleryDto = _galleryService.GetByIdGallery(galleryId);
 
-            return View(galleryDto);
+            return galleryDto;
         }
     }
 }

@@ -29,20 +29,20 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
         {
             return true;
         }
-        public async Task<bool> AddCoursePost(CoursesDto courseDto)
+        public async Task<bool> AddCoursePost( CoursesDto courseDto)
         {
             var data = courseDto;
-            if (courseDto.ImageFile != null && courseDto.ImageFile.Length > 0)
-            {
-                var fileName = Path.GetFileName(courseDto.ImageFile.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/CourseImages", fileName);
+            //if (courseDto.ImageFile != null && courseDto.ImageFile.Length > 0)
+            //{
+            //    var fileName = Path.GetFileName(courseDto.ImageFile.FileName);
+            //    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/CourseImages", fileName);
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await courseDto.ImageFile.CopyToAsync(fileStream);
-                }
-                courseDto.Image = fileName;
-            }
+            //    using (var fileStream = new FileStream(filePath, FileMode.Create))
+            //    {
+            //        await courseDto.ImageFile.CopyToAsync(fileStream);
+            //    }
+            //    courseDto.Image = fileName;
+            //}
 
             CoursesDto incomingDto = _coursesService.CreateCourses(courseDto);
             if (incomingDto is not null) return true;

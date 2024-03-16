@@ -1,10 +1,12 @@
 ﻿using Entities.ModelsDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 
 namespace DicleAcademyV2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class GetInTouchController : Controller
     {
         private readonly IGetInTouchService _getInTouchService;
@@ -14,55 +16,44 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
             _getInTouchService = getInTouchService;
         }
 
-        public IActionResult AddGetInTouch()
+        public bool AddGetInTouch()
         {
-            return View();
+            return true;
         }
-
-        public IActionResult AddGetInTouchPost(GetInTouchDto getInTouchDto, string getInTouchTitleEn, string getInTouchDescriptionEn)
+        public bool AddGetInTouchPost([FromBody] GetInTouchDto getInTouchDto, string getInTouchTitleEn, string getInTouchDescriptionEn)
         {
             GetInTouchDto incomingDto = _getInTouchService.CreateGetInTouch(getInTouchDto);
 
-            if (incomingDto is not null) ViewBag.Message = "Başarılı";
-            else ViewBag.Message = "Başarısız";
-
-            return View("AddGetInTouch");
+            if (incomingDto is not null) return true;
+            else return false;
         }
-
-        public IActionResult ShowGetInTouch()
+        public List<GetInTouchDto> ShowGetInTouch()
         {
             List<GetInTouchDto> getInTouchList = _getInTouchService.GetAllGetInTouch().ToList();
-            return View(getInTouchList);
+            return getInTouchList;
         }
-
-
-        public IActionResult UpdateGetInTouchPost(GetInTouchDto getInTouchDto)
+        public List<GetInTouchDto> UpdateGetInTouchPost([FromBody] GetInTouchDto getInTouchDto)
         {
             _getInTouchService.UpdateGetInTouch(getInTouchDto);
 
             List<GetInTouchDto> getInTouchList = _getInTouchService.GetAllGetInTouch().ToList();
 
-            return View("ShowGetInTouch", getInTouchList);
+            return getInTouchList;
         }
-
-        public IActionResult UpdateGetInTouch(int getInTouchId)
+        public GetInTouchDto UpdateGetInTouch(int getInTouchId)
         {
             GetInTouchDto getInTouchDto = _getInTouchService.GetByIdGetInTouch(getInTouchId);
 
-            return View(getInTouchDto);
+            return getInTouchDto;
         }
-
-        public IActionResult DeleteGetInTouch(int getInTouchId)
+        public List<GetInTouchDto> DeleteGetInTouch(int getInTouchId)
         {
             _getInTouchService.DeleteGetInTouch(getInTouchId);
 
             GetInTouchDto getInTouchDto = _getInTouchService.GetByIdGetInTouch(getInTouchId);
             List<GetInTouchDto> getInTouchList = _getInTouchService.GetAllGetInTouch().ToList();
 
-            if (getInTouchDto is null) ViewBag.Message = "Başarılı";
-            else ViewBag.Message = "Başarısız";
-
-            return View("ShowGetInTouch", getInTouchList);
+            return getInTouchList;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Entities.ModelsDto
         public double CoursesDuration { get; set; }
         public int CoursesQuota { get; set; }
         public string Image { get; set; }
-        public IFormFile? ImageFile { get; set; }
+        //public IFormFile? ImageFile { get; set; }
         public int CategoryId { get; set; }
     }
 }

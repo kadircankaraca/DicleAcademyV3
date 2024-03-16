@@ -40,10 +40,15 @@ namespace DicleAcademyV2.Areas.Client.Controllers
             {
                 string url = GenerateClient.Client.BaseAddress + "Course/AddCoursePost";
 
-                courseDto.Image = "asd";
-                var jsonContent = JsonSerializer.Serialize(courseDto);
+                var data = new MultipartFormDataContent();
+                
+                //courseDto.Image = "asd";
+                //var jsonContent = new StringContent(JsonSerializer.Serialize(courseDto), Encoding.UTF8, "application/json");
 
-                var response = await GenerateClient.Client.PostAsJsonAsync(url, jsonContent);
+                //data.Add(new StringContent(JsonSerializer.Serialize(courseDto), Encoding.UTF8, "application/json"), "courseDto");
+                
+                //var response = await GenerateClient.Client.PostAsync(url, jsonContent);
+                var response = await GenerateClient.Client.PostAsync(url, data);
 
 
                 if (response.IsSuccessStatusCode)

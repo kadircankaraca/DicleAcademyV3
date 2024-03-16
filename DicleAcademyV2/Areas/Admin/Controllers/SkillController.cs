@@ -13,54 +13,48 @@ namespace DicleAcademyV2.Areas.Admin.Controllers
         {
             _skillsService = skillsService;
         }
-        public IActionResult AddSkill()
+        public bool AddSkill()  
         {
-            return View();
+            return true;
         }
-        public IActionResult AddSkillPost(SkillsDto skillsDto, string skillTitleEn, string skillDescriptionEn)
+        public bool AddSkillPost([FromBody] SkillsDto skillsDto)
         {
             SkillsDto incomingDto = _skillsService.CreateSkills(skillsDto);
 
-            if (incomingDto is not null) ViewBag.Message = "Başarılı";
-            else ViewBag.Message = "Başarısız";
-            return View("AddSkill");
+            if (incomingDto is not null) return true;
+            else return false;
         }
-        public IActionResult ShowSkill()
+        public List<SkillsDto> ShowSkill()
         {
             List<SkillsDto> skillList = _skillsService.GetAllSkills().ToList();
 
-            return View(skillList);
+            return skillList;
         }
-
-        public IActionResult DeleteSkill(int skillId)
+        public List<SkillsDto> DeleteSkill(int skillId)
         {
-            List<SkillsDto> skillList = _skillsService.GetAllSkills().ToList();
             SkillsDto skill = _skillsService.GetByIdSkills(skillId);
 
             if (skill is not null) _skillsService.DeleteSkills(skillId);
 
             skill = _skillsService.GetByIdSkills(skillId);
+            List<SkillsDto> skillList = _skillsService.GetAllSkills().ToList();
 
-            if (skill is null) ViewBag.Message = "Başarılı";
-            else ViewBag.Message = "Başarısız";
-
-            return View("ShowSkill", skillList);
+            return skillList;
         }
-
-        public IActionResult UpdateSkill(int skillId)
+        public SkillsDto UpdateSkill(int skillId)
         {
             SkillsDto skill = _skillsService.GetByIdSkills(skillId);
-            return View(skill);
+            return skill;
         }
-        public IActionResult UpdateSkillPost(SkillsDto skill, string newSkillImage)
+        public List<SkillsDto> UpdateSkillPost([FromBody] SkillsDto skill, [FromBody] string newSkillImage)
         {
-            List<SkillsDto> skillList = _skillsService.GetAllSkills().ToList();
             if (string.IsNullOrEmpty(newSkillImage)) skill.SkillImage = _skillsService.GetByIdSkills(skill.SkillId).SkillImage;
             else skill.SkillImage = newSkillImage;
 
             _skillsService.UpdateSkills(skill);
+            List<SkillsDto> skillList = _skillsService.GetAllSkills().ToList();
 
-            return View("ShowSkill", skillList);
+            return skillList;
         }
     }
 }

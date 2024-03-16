@@ -1,5 +1,4 @@
-﻿@model HeaderDto
-
+﻿@model GetInTouchDto
 <!-- Begin page -->
 <!-- Start Content-->
 <div class="container-fluid">
@@ -11,11 +10,11 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Header</a></li>
-                        <li class="breadcrumb-item active">Header Güncelle</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">GetInTouch</a></li>
+                        <li class="breadcrumb-item active">GetInTouch Göster</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Header Güncelle</h4>
+                <h4 class="page-title">GetInTouch Göster</h4>
             </div>
         </div>
     </div>
@@ -25,7 +24,13 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="header-title">Header</h4>
+                    <h4 class="header-title">GetInTouch</h4>
+                    <!--
+                    <p class="text-muted mb-0">
+                        Use <code>.table-striped</code> to add zebra-striping to any table row
+                        within the <code>&lt;tbody&gt;</code>.
+                    </p>
+                    -->
                 </div>
                 <div class="card-body">
                     <div class="table-responsive-sm">
@@ -38,41 +43,46 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <form method="post" action="/Header/UpdateHeaderPost" enctype="multipart/form-data">
+                                <form method="post" action="/GetInTouchClient/UpdateGetInTouchClientPost" enctype="multipart/form-data">
                                 <tr>
                                     <td>Başlık</td>
                                     <td></td>
-                                    <td><input style="width: 100%; max-width: 100%; resize: vertical;" type="text" name="HeaderTitle" value="@Model.HeaderTitle"></td>
+                                    <td><input style="width: 100%; max-width: 100%; resize: vertical;" type="text" name="GetInTouchTitle" value="@Model.GetInTouchTitle"></td>
                                 </tr>
 
                                 <tr>
                                     <td>Açıklama</td>
                                     <td></td>
                                     <td>
-                                        <textarea name="HeaderDescription" style="width: 100%; max-width: 100%; min-height: 100px; resize: vertical;">@Model.HeaderDescription
-                                        </textarea>
+                                        <textarea name="GetInTouchDescription" style="width: 100%; max-width: 100%; min-height: 100px; resize: vertical;">@Model.GetInTouchDescription</textarea>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Fotoğraf</td>
-                                    <td class="table-user">
-                                        <img src="~/Images/HeaderImages/@Model.HeaderImage" alt="table-user"
-                                             class="me-2 rounded-circle" />
-                                    </td>
-                                    <td>
-                                        <input type="file" name="image" class="form-control-file">
-                                    </td>
+                                    <td>Adres</td>
+                                    <td></td>
+                                    <td><input style="width: 100%; max-width: 100%; resize: vertical;" type="text" name="Adress" value="@Model.Adress"></td>
+                                </tr>
+                                <tr>
+                                    <td>Telefon</td>
+                                    <td></td>
+                                    <td><input style="width: 100%; max-width: 100%; resize: vertical;" type="text" name="PhoneNumber" value="@Model.PhoneNumber"></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td></td>
+                                    <td><input style="width: 100%; max-width: 100%; resize: vertical;" type="text" name="Email" value="@Model.Email"></td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td></td>
                                     <td style="text-align: right;">
-                                        <input type="hidden" name="HeaderId" value="@Model.HeaderId" />
+                                        <input type="hidden" name="GetInTouchId" value="@Model.GetInTouchId" />
                                         <button type="submit" class="btn btn-link text-reset fs-16 px-1">Onayla</button>
                                     </td>
                                 </tr>
                                 </form>
                             </tbody>
+                            <input value="@ViewBag.Message" id="bag" style="display:none;" />
                         </table>
                     </div> <!-- end table-responsive-->
                 </div>
@@ -88,7 +98,7 @@
     var data = document.getElementById("bag").value;
     console.log("DATA " + data);
     if (data == "Başarılı") {
-        swal("Header Başarıyla Güncellendi", {
+        swal("GetInTouch Başarıyla Güncellendi", {
             icon: "success",
             button: "Tamam!",
         });
@@ -99,3 +109,4 @@
         });
     }
 </script>
+
